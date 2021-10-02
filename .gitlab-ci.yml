@@ -1,0 +1,74 @@
+stages:
+  - build
+  - create
+  - deploy
+
+build_2logAdminApp:
+  stage: build
+  image: registry.gitlab.com/2log/docker-images/qt-webassembly:5.14.0
+  script:
+    - git submodule sync --recursive
+    - git submodule update --init --recursive
+    - source /emsdk/emsdk_env.sh
+    - mkdir -p build
+    - mkdir result
+    - cp html/* result/
+    - cd build
+    - /qtbase/bin/qmake ../2log_admin_app.pro DEFINES+=WEB_ASSEMBLY DEFINES+=__EMSCRIPTEN__ LIBS+=-lidbfs.js
+    - make -j8
+    - echo "CI_COMMIT_SHA = ${CI_COMMIT_SHA}" > build-info.txt
+    - ls
+    - cp build-info.txt ../result
+    - cp portal.html ../result
+    - cp portal.wasm ../result
+    - cp portal.js ../result
+    - cp qtloader.js ../result
+    - ls ../result
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - build/
+  artifacts:
+    paths:
+      - result
+
+create_image:
+  stage: create
+  image: docker:18.09.7
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - if [ "$CI_COMMIT_REF_SLUG" == "master" ]; then IMAGE_TAG="latest"; else IMAGE_TAG="${CI_COMMIT_REF_SLUG}"; fi
+    - if [ "$CI_COMMIT_TAG" != "" ]; then IMAGE_TAG="${CI_COMMIT_TAG}"; fi
+    - echo ${IMAGE_TAG}
+    - echo ${CI_COMMIT_SHA}
+    - echo ${CI_COMMIT_REF_NAME}
+    - docker image rm $CI_REGISTRY_IMAGE:$IMAGE_TAG || true # remove previous image from build (dev) server if not used
+    - docker build --build-arg GIT_COMMIT_HASH=$CI_COMMIT_SHA --build-arg GIT_BRANCH=$CI_COMMIT_REF_NAME --build-arg GIT_TAG=$CI_COMMIT_TAG --build-arg GITLAB_USER_LOGIN=$GITLAB_USER_LOGIN --build-arg ORIGINAL_IMAGE_TAG=$IMAGE_TAG -t $CI_REGISTRY_IMAGE:$IMAGE_TAG .
+    - docker push $CI_REGISTRY_IMAGE:$IMAGE_TAG
+
+pages:
+  stage: deploy
+  image: ubuntu:18.04
+  variables:
+    GIT_STRATEGY: none
+  only:
+    - master
+    - tags
+  script:
+    - mkdir -p public
+    - rm -f public/*
+    - cp result/* public/
+  artifacts:
+    paths:
+      - public
+
+upload_binary:
+  stage: deploy
+  image: alexedev/ubuntu-sshpass
+  variables:
+    GIT_STRATEGY: none
+  only: 
+    - tags
+  script:
+    - export SSHPASS=$QH_MASTER_PASS
+    - sshpass -e scp -o stricthostkeychecking=no result/portal.wasm gitlab-ci@master.quickhub.org:/home/gitlab-ci/nginx-root/public

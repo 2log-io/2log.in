@@ -1,0 +1,14 @@
+FROM nginx:alpine
+RUN rm /usr/share/nginx/html/index.html && rm /usr/share/nginx/html/50x.html
+COPY result /usr/share/nginx/html
+
+ARG GIT_COMMIT_HASH
+ARG GIT_BRANCH
+ARG GIT_TAG
+ARG GITLAB_USER_LOGIN
+ARG ORIGINAL_IMAGE_TAG
+ENV GIT_COMMIT_HASH=${GIT_COMMIT_HASH} \
+    GIT_BRANCH=${GIT_BRANCH} \
+    GIT_TAG=${GIT_TAG} \
+    GITLAB_USER_LOGIN=${GITLAB_USER_LOGIN} \
+    ORIGINAL_IMAGE_TAG=${ORIGINAL_IMAGE_TAG}

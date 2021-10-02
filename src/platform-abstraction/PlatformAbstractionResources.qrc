@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Assets/ca-chain.pem</file>
+        <file>Assets/ca-chain.crt</file>
+    </qresource>
+</RCC>
