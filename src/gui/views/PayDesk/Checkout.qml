@@ -28,14 +28,12 @@ Rectangle
         target: deviceModel
         function onDataReceived()
         {
-            console.log("Foo"+JSON.stringify(docroot.billData))
             payService.call("preparebill",{"bill":JSON.parse(JSON.stringify(docroot.billData.bill)), "total": docroot.billData.total, "cardID": subject} , payCallBack)
         }
     }
 
     function payCallBack(cbData)
     {
-        console.log(JSON.stringify(cbData))
         if(cbData.errcode === 0)
         {
             deviceModel.triggerFunction("showAccept",{})
@@ -144,7 +142,6 @@ Rectangle
 
                                         onClicked:
                                         {
-                                            console.log(uuid)
                                             payService.call("preparebill",{"bill":JSON.parse(JSON.stringify(docroot.billData.bill)), "total": docroot.billData.total, "userID": uuid} , payCallBack)
                                         }
                                     }

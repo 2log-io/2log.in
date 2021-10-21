@@ -34,7 +34,6 @@ ViewBase
          "flatrateCategory":flatrateCategoryCombo.editedText,
          "accountingCode":accountingCodeCombo.editedText
         }
-        console.log(JSON.stringify(obj))
         productModelAll.append(obj)
         nameInput.text = ""
         categoryCompo.reset()

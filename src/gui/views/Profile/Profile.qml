@@ -21,7 +21,6 @@ ScrollViewBase
             id: container
             onPasswordChanged:
             {
-                console.log(code)
                 if(success)
                 {
                     feedbackOKDialog.open()

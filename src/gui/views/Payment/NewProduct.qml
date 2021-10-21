@@ -86,7 +86,6 @@ ScrollViewBase
                      "price": HelperFunctions.priceTextToInt(priceField.editedText),
                       "flatrateCategory":flatrateCategoryField.editedText
                     }
-                    console.log(JSON.stringify(obj))
                     model.append(obj)
                 }
             }

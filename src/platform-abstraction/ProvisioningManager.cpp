@@ -42,7 +42,7 @@ ProvisioningManager::ProvisioningManager(QObject* parent) : QStateMachine(parent
     _testWifi = true;
     #ifndef Q_OS_WASM
    // _socketConfigurator = new SocketConfiguratorIDFix(this);
-     _socketConfigurator = new SocketConfiguratorLegacy(this);
+    _socketConfigurator = new SocketConfiguratorLegacy(this);
     init();
     #endif
 }

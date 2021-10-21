@@ -111,7 +111,6 @@ Container
 
                     function inserted(data)
                     {
-                        console.log(JSON.stringify(data))
                         if(data.success === true)
                         {
                             container.newDeviceID = data.data.data.deviceID

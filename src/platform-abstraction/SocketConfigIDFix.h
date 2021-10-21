@@ -16,8 +16,8 @@
  */
 
 
-#ifndef SOCKETCONFIGURATOR_H
-#define SOCKETCONFIGURATOR_H
+#ifndef SOCKETCONFIGURATORIDFIX_H
+#define SOCKETCONFIGURATORIDFIX_H
 
 #include <QObject>
 #include <QSslSocket>

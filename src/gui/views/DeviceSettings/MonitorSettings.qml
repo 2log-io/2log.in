@@ -22,9 +22,7 @@ ScrollViewBase
         text: qsTr("Überwachung löschen")
         onClicked:
         {
-            console.log(model.uuid)
             deleteMachineDialog.open()
-
         }
         icon: Icons.trash
         anchors.verticalCenter: parent.verticalCenter
@@ -54,7 +52,6 @@ ScrollViewBase
                 onClicked: machineControlService.call("deleteController",{"deviceID":model.uuid, "type":"monitoring"}, deleteCallback)
                 function deleteCallback(data)
                 {
-                    console.log(JSON.stringify(data))
                     deleteMachineDialog.close()
                     if(data.success === true)
                     {

@@ -34,7 +34,6 @@ Rectangle
         target: deviceModel
         function onDataReceived()
         {
-            console.log(subject)
             var msg = billData
             billData["cardID"] = subject
             payService.call("preparebill", msg, payCallBack)
@@ -59,7 +58,6 @@ Rectangle
 
    function confirmCb(data)
    {
-       console.log(JSON.stringify(data))
        if(data.errcode == 0)
        {
            displayModel.triggerFunction("confirm",{})
@@ -69,7 +67,6 @@ Rectangle
 
     function payCallBack(cbData)
     {
-        console.log(JSON.stringify(cbData))
         if(cbData.errcode === 0)
         {
             deviceModel.triggerFunction("showAccept",{})

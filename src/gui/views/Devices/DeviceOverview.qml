@@ -147,7 +147,6 @@ ScrollViewBase
             controllerType: "monitoring"
             onOpenSettings:
             {
-                console.log(deviceID)
                 monitorTimer.deviceID = deviceID;
                 monitorTimer.start()
             }

@@ -11,7 +11,6 @@ Item
     property bool mandatory: false
     property bool optional: false
     property bool overwritten: false
-    onOverwrittenChanged: console.log(overwritten+" OVER")
     property alias buttonRect: buttonBackground
     property bool checked: false
     signal clicked()
@@ -72,7 +71,6 @@ Item
             anchors.verticalCenter: parent.verticalCenter
             opacity: buttonBackground.opacity
         }
-        onStateChanged: console.log(state)
 
         states:
         [
@@ -117,23 +115,6 @@ Item
                     opacity: .7
                 }
             }
-//            ,
-//            State
-//            {
-//                name:"checked"
-//                when:  docroot.checked
-//                PropertyChanges
-//                {
-//                    target: layout
-//                    opacity: 1
-//                }
-
-//                PropertyChanges
-//                {
-//                    target: buttonBackground
-//                    visible: true
-//                }
-//            }
         ]
 
         transitions:
@@ -183,7 +164,7 @@ Item
         onClicked: docroot.clicked()
     }
 
-    onStateChanged: console.log(state)
+
     states:
     [
         State
@@ -203,12 +184,6 @@ Item
                 target: mouse
                 enabled: true
             }
-
-//            PropertyChanges
-//            {
-//                target: buttonBackground
-//                visible: true
-//            }
         },
 
         State

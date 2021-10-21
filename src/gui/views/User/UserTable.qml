@@ -25,5 +25,4 @@ ListView
 
     maximumFlickVelocity: 1000
     boundsBehavior: Flickable.DragOverBounds
-    onSelectedUserChanged: console.log(selectedUser )
 }

@@ -334,10 +334,8 @@ ViewBase
                             text:qsTr("Import starten")
                             onClicked:
                             {
-                                console.log("CLICK")
                                 if(docroot.checkValidity())
                                 {
-                                    console.log("OK")
                                     logic.startImport()
                                 }
                             }

@@ -49,7 +49,6 @@ ScrollViewBase
         MachineStatisticsContainer
         {
             resourceID:  docroot.model ? docroot.model.deviceID  : ""
-            onResourceIDChanged: console.log(resourceID)
         }
 
         LastMachineJobsContainer

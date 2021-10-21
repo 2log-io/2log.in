@@ -37,7 +37,6 @@ Item
         if(role == undefined)
             return ""
 
-        console.log("role: "+role)
         return role
     }
 

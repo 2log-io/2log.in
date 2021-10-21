@@ -31,7 +31,6 @@ ListView
         flatrateCategories: docroot.flatrateCategories
         category: model.category
         flatrateCategory: model.flatrateCategory
-        //onClicked: {docroot.selectedProduct = uuid; docroot.productClicked(uuid, name+" "+surname)}
         onDeleteItem: docroot.productDeleted(idx)
         onPriceEdited:
         { docroot.priceChanged(idx, price);}
@@ -41,5 +40,4 @@ ListView
         onAccountingCodeEdited: docroot.accountingCodeChanged(idx, category)
         accountingCode: model.accountingCode
     }
-    onSelectedProductChanged: console.log(selectedProduct )
 }

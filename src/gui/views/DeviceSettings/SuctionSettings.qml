@@ -22,7 +22,6 @@ ScrollViewBase
         text: qsTr("Absauge löschen")
         onClicked:
         {
-            console.log(model.uuid)
             deleteMachineDialog.open()
 
         }
@@ -54,7 +53,6 @@ ScrollViewBase
                 onClicked: machineControlService.call("deleteSuction",{"deviceID":model.uuid}, deleteCallback)
                 function deleteCallback(data)
                 {
-                    console.log(JSON.stringify(data))
                     deleteMachineDialog.close()
                     if(data.success === true)
                     {
