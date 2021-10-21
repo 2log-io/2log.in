@@ -101,7 +101,7 @@ ApplicationWindow
     {
         id: conn
         target: QuickHub
-        onStateChanged:
+        function onStateChanged()
         {
             if(QuickHub.state == QuickHub.STATE_Authenticated)
             {

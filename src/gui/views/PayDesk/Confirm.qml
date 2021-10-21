@@ -12,7 +12,6 @@ Rectangle
     property DeviceModel deviceModel
     property DeviceModel displayModel
 
-
     property bool active: (StackView.status === StackView.Active)
     signal backClicked()
     signal paymentSuccessfull()
@@ -33,7 +32,7 @@ Rectangle
     Connections
     {
         target: deviceModel
-        onDataReceived:
+        function onDataReceived()
         {
             console.log(subject)
             var msg = billData
@@ -45,7 +44,7 @@ Rectangle
     Connections
     {
         target: displayModel
-        onDataReceived:
+        function onDataReceived()
         {
             if(subject == "confirm")
                 payService.call("bill", docroot.billData, docroot.confirmCb)
@@ -134,8 +133,8 @@ Rectangle
                     width: parent.width
                 }
             }
-
         }
+
         Item
         {
             Layout.fillHeight: true
@@ -144,8 +143,9 @@ Rectangle
             BillSummary
             {
                 id: billSummary
-              anchors.fill: parent
-              billData: docroot.billData
+                anchors.fill: parent
+                billData: docroot.billData
+
             }
 
             Rectangle

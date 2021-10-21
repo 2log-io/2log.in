@@ -155,7 +155,7 @@ Item
         id: conn
         target: QuickHub
         property bool firstStart: true
-        onStateChanged:
+        function onStateChanged()
         {
             if((QuickHub.state == QuickHub.STATE_Authenticated) && conn.firstStart)
             {
@@ -407,7 +407,7 @@ Item
     Connections
     {
         target: cppHelper
-        onBack:
+        function onBack()
         {
             if(stackView.depth > 1)
                 stackView.pop()

@@ -41,8 +41,8 @@ ProvisioningManager::ProvisioningManager(QObject* parent) : QStateMachine(parent
     // _testWifi false: device will not start to config mode automatically if configured wifi is not found - useful to pre-provision a device
     _testWifi = true;
     #ifndef Q_OS_WASM
-    _socketConfigurator = new SocketConfiguratorIDFix(this);
-    //_socketConfigurator = new SocketConfiguratorLegacy(this);
+   // _socketConfigurator = new SocketConfiguratorIDFix(this);
+     _socketConfigurator = new SocketConfiguratorLegacy(this);
     init();
     #endif
 }
@@ -123,8 +123,8 @@ void ProvisioningManager::setupStates()
         _state = PROVISIONING_CONNECTING_SOCKET;
         Q_EMIT stateChanged();
         qDebug()<<_state;
-    //    _socketConfigurator->start(_targetSsid, _targetPass, _targetServer, "device.local.2log.io", _testWifi);
-         _socketConfigurator->start(_targetSsid, _targetPass, _targetServer, "192.168.4.1", _testWifi);
+        _socketConfigurator->start(_targetSsid, _targetPass, _targetServer, "device.local.2log.io", _testWifi);
+    //     _socketConfigurator->start(_targetSsid, _targetPass, _targetServer, "192.168.4.1", _testWifi);
     });
 
     QState* transferDataState = new QState(this);

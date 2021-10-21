@@ -68,7 +68,7 @@ Rectangle
                 {
                     clip: true
                     id: swipeDelegate
-                    width: parent.width
+                    width: parent !== null ? parent.width : 0
                     onClicked: if(swipe.complete) swipe.close(); else swipe.open(SwipeDelegate.Right)
                     height: 60
 
@@ -95,7 +95,8 @@ Rectangle
                       background:
                       Rectangle
                       {
-                          color:Colors.darkBlue
+                          color: Colors.darkBlue
+                          width: parent.width
 
                           RowLayout
                           {

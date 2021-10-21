@@ -29,7 +29,6 @@ ViewBase
         anchors.bottomMargin: 40
         ProductOverview
         {
-           // Layout.fillHeight: true
             Layout.fillWidth: true
             Layout.fillHeight: true
             onClicked:

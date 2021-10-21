@@ -26,7 +26,7 @@ Rectangle
     Connections
     {
         target: deviceModel
-        onDataReceived:
+        function onDataReceived()
         {
             console.log("Foo"+JSON.stringify(docroot.billData))
             payService.call("preparebill",{"bill":JSON.parse(JSON.stringify(docroot.billData.bill)), "total": docroot.billData.total, "cardID": subject} , payCallBack)

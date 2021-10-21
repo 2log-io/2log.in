@@ -112,11 +112,12 @@ ViewBase
         Connections
         {
             target: reader
-            onCountChanged:
+            function onCountChanged()
             {
                 list.model = 0; list.model = reader.count; if(reader.count > 0 && docroot.hasErrors()) errorDialog.open()
             }
-            onFileLoaded:
+
+            function onFileLoaded()
             {
                 p.course = -1
                 p.role = -1

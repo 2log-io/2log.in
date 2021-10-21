@@ -29,7 +29,7 @@
 
 #ifndef Q_OS_WASM
 #include "SocketConfigIDFix.h"
-//#include "SocketConfigLegacy.h"
+#include "SocketConfigLegacy.h"
 #endif
 
 class QQmlEngine;
