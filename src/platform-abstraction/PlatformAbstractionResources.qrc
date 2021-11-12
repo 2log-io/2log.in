@@ -2,5 +2,6 @@
     <qresource prefix="/">
         <file>Assets/ca-chain.pem</file>
         <file>Assets/ca-chain.crt</file>
+        <file>Assets/2log-device.local.crt</file>
     </qresource>
 </RCC>

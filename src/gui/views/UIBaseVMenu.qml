@@ -243,7 +243,7 @@ Item
 
         BottomAppMenu
         {
-            open: stackView.currentItem && stackView.currentItem.scrollVelocity >= 0
+            open: true//stackView.currentItem && stackView.currentItem.scrollVelocity >= 0
             visible: QuickHub.currentUser.userData !== undefined && QuickHub.currentUser.userData.role !== "mngmt" && QuickHub.currentUser.userData.role !== "cash"&&  !sidebar.visible
             Layout.fillWidth: true
             stackView: stackView

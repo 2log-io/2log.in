@@ -68,7 +68,7 @@ ios {
     LIBS += -framework NetworkExtension
     LIBS += -framework CoreLocation
     QMAKE_CXXFLAGS += -fobjc-arc
-    QMAKE_TARGET_BUNDLE_PREFIX = io.2log.apps.portal
+    QMAKE_TARGET_BUNDLE_PREFIX = io.2log.in
 }
 
 # SocketConfigIDFix uses QSSlSockets which is not supported in Qt for WebAssembly
