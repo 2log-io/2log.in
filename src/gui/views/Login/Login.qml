@@ -13,7 +13,7 @@ Rectangle
     property bool provisioningMode: false
 
     color: Colors.darkBlue
-    opacity:!root.provisioning && !root.reconnect && (QuickHub.state !== QuickHub.STATE_Authenticated) ? 1 : 0
+    opacity:!root.provisioning && !root.reconnect && (Connection.state !== Connection.STATE_Authenticated) ? 1 : 0
     visible: opacity != 0
     Behavior on opacity {NumberAnimation{easing.type: Easing.OutQuad}}
 

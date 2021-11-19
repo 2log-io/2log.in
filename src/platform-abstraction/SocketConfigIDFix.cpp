@@ -186,7 +186,6 @@ void SocketConfiguratorIDFix::newMessage()
         processMessage(socket, msg);
         qDebug()<< token;
     }
-
 }
 
 void SocketConfiguratorIDFix::socketStateChanged(QAbstractSocket::SocketState socketState)

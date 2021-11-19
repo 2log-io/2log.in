@@ -33,10 +33,10 @@ ApplicationWindow
 
     function suspend()
     {
-        if( QuickHub.state == QuickHub.STATE_Authenticated )
+        if( Connection.state == Connection.STATE_Authenticated )
         {
             root.suspended = true
-            QuickHub.disconnectServer();
+            Connection.disconnectServer();
             root.reconnect = true;
         }
     }
@@ -47,7 +47,7 @@ ApplicationWindow
         {
             root.reconnect = false;
             if(!root.provisioning)
-                QuickHub.reconnectServer()
+                Connection.reconnectServer()
         }
     }
 
@@ -71,11 +71,11 @@ ApplicationWindow
     Component.onCompleted:
     {
         var url = serverURL
-        QuickHub.autoLogIn = true
-        QuickHub.keepaliveInterval = 5000
+        UserLogin.autoLogIn = true
+        Connection.keepaliveInterval = 5000
         if(url !== "")
         {
-            QuickHub.serverUrl = url
+            Connection.serverUrl = url
         }
     }
 
@@ -100,10 +100,10 @@ ApplicationWindow
     Connections
     {
         id: conn
-        target: QuickHub
+        target: Connection
         function onStateChanged()
         {
-            if(QuickHub.state == QuickHub.STATE_Authenticated)
+            if(Connection.state == Connection.STATE_Authenticated)
             {
                 if(suspended)
                 {
@@ -119,10 +119,10 @@ ApplicationWindow
         id: reconnectTimer
         interval: 2000
         repeat: true
-        running: QuickHub.state == QuickHub.STATE_Disconnected && !root.provisioning && !root.suspended
+        running: Connection.state == Connection.STATE_Disconnected && !root.provisioning && !root.suspended
         onTriggered:
         {
-            QuickHub.reconnectServer()
+            Connection.reconnectServer()
         }
     }
 

@@ -30,10 +30,10 @@ Item
     property int selectedReader: -1
     property string role:
     {
-        if(QuickHub.currentUser.userData == undefined)
+        if(UserLogin.currentUser.userData == undefined)
             return ""
 
-        var role =  QuickHub.currentUser.userData.role
+        var role =  UserLogin.currentUser.userData.role
         if(role == undefined)
             return ""
 
@@ -152,11 +152,11 @@ Item
     Connections
     {
         id: conn
-        target: QuickHub
+        target: Connection
         property bool firstStart: true
         function onStateChanged()
         {
-            if((QuickHub.state == QuickHub.STATE_Authenticated) && conn.firstStart)
+            if((Connection.state == Connection.STATE_Authenticated) && conn.firstStart)
             {
                 if(uiroot.role == "cash")
                     stackView.replace(payDesk)
@@ -199,7 +199,7 @@ Item
                          {
                             changeLanguageDialog.close()
                             languageSwitcher.retranslate();
-                            QuickHub.logout()
+                            UserLogin.logout()
                          }
                      }
                 }
@@ -224,8 +224,8 @@ Item
                     onClicked:
                     {
                         conn.firstStart = true
-                        QuickHub.logout()
-                        QuickHub.disconnectServer()
+                        UserLogin.logout()
+                        Connection.disconnectServer()
                     }
                 }
             ]
@@ -244,7 +244,7 @@ Item
         BottomAppMenu
         {
             open: true//stackView.currentItem && stackView.currentItem.scrollVelocity >= 0
-            visible: QuickHub.currentUser.userData !== undefined && QuickHub.currentUser.userData.role !== "mngmt" && QuickHub.currentUser.userData.role !== "cash"&&  !sidebar.visible
+            visible: UserLogin.currentUser.userData !== undefined && UserLogin.currentUser.userData.role !== "mngmt" && UserLogin.currentUser.userData.role !== "cash"&&  !sidebar.visible
             Layout.fillWidth: true
             stackView: stackView
         }

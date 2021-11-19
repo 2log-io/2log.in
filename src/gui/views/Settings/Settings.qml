@@ -18,7 +18,7 @@ ScrollViewBase
 
         AdminUserContainer
         {
-            visible: (QuickHub.currentUser.userData.role === "admin" || QuickHub.currentUser.userID === "admin") && docroot.width > 800
+            visible: (UserLogin.currentUser.userData.role === "admin" || UserLogin.currentUser.userID === "admin") && docroot.width > 800
         }
 
         PermissionGroupContainer

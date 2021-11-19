@@ -49,7 +49,7 @@ Item
                     anchors.verticalCenter: parent.verticalCenter
                     iconColor: Colors.white
                     iconOpacity: .2
-                    onClicked: QuickHub.logout()
+                    onClicked: UserLogin.logout()
                 }
 
             ]
@@ -57,7 +57,7 @@ Item
             HeaderButton
             {
                 text:qsTr("Benutzer")
-                visible: QuickHub.currentUser.userData === undefined ? false : QuickHub.currentUser.userData.role !== "mngmt"
+                visible: UserLogin.currentUser.userData === undefined ? false : UserLogin.currentUser.userData.role !== "mngmt"
                 icon: Icons.user
                 selected: stackView.depth > 0 ?  stackView.currentItem.viewID === "users" : false
                 onClicked:
@@ -69,7 +69,7 @@ Item
             HeaderButton
             {
                 text:qsTr("Ressourcen")
-                visible: QuickHub.currentUser.userData === undefined ? false :  QuickHub.currentUser.userData.role !== "mngmt"
+                visible: UserLogin.currentUser.userData === undefined ? false :  UserLogin.currentUser.userData.role !== "mngmt"
                 icon: Icons.plug
                 selected: stackView.depth > 0 ?  stackView.currentItem.viewID === "devices" : false
                 onClicked: stackView.replace(null, devices)
@@ -78,7 +78,7 @@ Item
             HeaderButton
             {
                 text:qsTr("Administration")
-                visible: QuickHub.currentUser.userData === undefined ? false : QuickHub.currentUser.userData.role !== "mngmt"
+                visible: UserLogin.currentUser.userData === undefined ? false : UserLogin.currentUser.userData.role !== "mngmt"
                 icon: Icons.gear
                  selected: stackView.depth > 0 ?  stackView.currentItem.viewID === "settings" : false
                 onClicked: stackView.replace(null, settings)
