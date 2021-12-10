@@ -28,7 +28,7 @@ Rectangle
         target: deviceModel
         function onDataReceived()
         {
-            payService.call("preparebill",{"bill":JSON.parse(JSON.stringify(docroot.billData.bill)), "total": docroot.billData.total, "cardID": subject} , payCallBack)
+            payService.call("preparebill",{"cartID":docroot.billData.cartID,"bill":JSON.parse(JSON.stringify(docroot.billData.bill)), "total": docroot.billData.total, "cardID": subject} , payCallBack)
         }
     }
 
@@ -142,7 +142,7 @@ Rectangle
 
                                         onClicked:
                                         {
-                                            payService.call("preparebill",{"bill":JSON.parse(JSON.stringify(docroot.billData.bill)), "total": docroot.billData.total, "userID": uuid} , payCallBack)
+                                            payService.call("preparebill",{"cartID":docroot.billData.cartID,"bill":JSON.parse(JSON.stringify(docroot.billData.bill)), "total": docroot.billData.total,"userID": uuid} , payCallBack)
                                         }
                                     }
 

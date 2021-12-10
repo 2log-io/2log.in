@@ -223,7 +223,7 @@ Rectangle
         {
             list.push(listModel.get(i))
         }
-        docroot.checkoutClicked({"total":docroot.price, "bill": list})
+        docroot.checkoutClicked({"total":docroot.price, "bill": list, "cartID":  cppHelper.createUUID()})
     }
 
     //  text:
