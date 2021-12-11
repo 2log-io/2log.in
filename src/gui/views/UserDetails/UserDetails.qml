@@ -1,3 +1,21 @@
+
+
+/*   2log.io
+ *   Copyright (C) 2021 - 2log.io | mail@2log.io,  mail@friedemann-metzger.de
+ *
+ *   This program is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU Affero General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   (at your option) any later version.
+ *
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU Affero General Public License for more details.
+ *
+ *   You should have received a copy of the GNU Affero General Public License
+ *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 import QtQuick 2.5
 import QtQuick.Controls 2.5
 import UIControls 1.0
@@ -5,12 +23,9 @@ import QtQuick.Layouts 1.3
 import CloudAccess 1.0
 import AppComponents 1.0
 
-
-ScrollViewBase
-{
+ScrollViewBase {
     id: docroot
     viewID: "users"
-
 
     property string userID
     property string internalUserID
@@ -18,169 +33,143 @@ ScrollViewBase
     property bool loading: StackView.status === StackView.Activating
     property bool unsavedChanges: contact.unsavedChanges
 
-    Binding on headline {value: docroot.name}
+    Binding on headline {
+        value: docroot.name
+    }
 
-    canBack:function()
-    {
-        if(docroot.unsavedChanges)
-        {
+    canBack: function () {
+        if (docroot.unsavedChanges) {
             unsavedChangesDialog.open()
             return false
         }
         return true
     }
 
-    viewActions:
-        ViewActionButton
-    {
+    viewActions: ViewActionButton {
         text: qsTr("Benutzer löschen")
         onClicked: deleteUserDialog.open()
         icon: Icons.userDelete
         anchors.verticalCenter: parent.verticalCenter
     }
 
-    onLoadingChanged:
-    {
-        if(loading)
+    onLoadingChanged: {
+        if (loading)
             return
 
-        userSyncModel.resource = "labcontrol/user?userID="+docroot.userID
+        userSyncModel.resource = "labcontrol/user?userID=" + docroot.userID
         cardContainer.userID = userID
         jobsContainer.userID = userID
         permissionContainer.userID = userID
-
     }
 
-    Item
-    {
-        SynchronizedObjectModel
-        {
+    Item {
+        SynchronizedObjectModel {
             id: userSyncModel
         }
     }
 
-    Column
-    {
+    Column {
         spacing: docroot.spacing
         width: parent.width
 
-        Flow
-        {
+        Flow {
             width: parent.width
-            spacing:  docroot.spacing
+            spacing: docroot.spacing
 
-            ContactDetailsContainer
-            {
+            ContactDetailsContainer {
                 id: contact
-                userModel:userSyncModel
+                userModel: userSyncModel
                 width: parent.width > 725 ? (parent.width - docroot.spacing) / 2 : parent.width
             }
 
-
-            MoneyContainer
-            {
+            MoneyContainer {
                 height: contact.height
                 referenceHeight: contact.contentHeight
                 width: parent.width > 725 ? (parent.width - docroot.spacing) / 2 : parent.width
-                userModel:userSyncModel
+                userModel: userSyncModel
             }
         }
 
-        PermissionContainer
-        {
+        PermissionContainer {
             id: permissionContainer
         }
 
-        CardContainer
-        {
+        CardContainer {
             id: cardContainer
         }
 
-        LastUserJobsContainer
-        {
+        LastUserJobsContainer {
             id: jobsContainer
             height: 280
             visible: count != 0
             width: parent.width
         }
 
-        Row
-        {
+        Row {
             Layout.alignment: Qt.AlignHCenter
             spacing: docroot.spacing
         }
 
-        ServiceModel
-        {
+        ServiceModel {
             id: labService
             service: "lab"
         }
 
-        Item
-        {
+        Item {
             Layout.fillHeight: true
             Layout.fillWidth: true
         }
-
     }
 
-    Item
-    {
-        InfoDialog
-        {
+    Item {
+        InfoDialog {
             id: deleteUserDialog
-            parent:overlay
+            parent: overlay
             icon: Icons.userDelete
             anchors.centerIn: Overlay.overlay
             iconColor: Colors.warnRed
             text: qsTr("Benutzer wirklich aus der Datenbank löschen?")
 
-            StandardButton
-            {
-                text:qsTr("Löschen")
+            StandardButton {
+                text: qsTr("Löschen")
                 fontColor: Colors.warnRed
-                onClicked: labService.call("deleteUser",{"userID": docroot.userID}, deleteCallback)
-                function deleteCallback(success)
-                {
+                onClicked: labService.call("deleteUser", {
+                                               "userID": docroot.userID
+                                           }, deleteCallback)
+                function deleteCallback(success) {
                     deleteUserDialog.close()
-                    if(success)
-                    {
+                    if (success) {
                         deleteSuccess.open()
                     }
                 }
             }
 
-            StandardButton
-            {
-                text:qsTr("Abbrechen")
+            StandardButton {
+                text: qsTr("Abbrechen")
                 onClicked: deleteUserDialog.close()
             }
         }
 
-        InfoDialog
-        {
+        InfoDialog {
             id: deleteSuccess
-            parent:overlay
+            parent: overlay
             icon: Icons.userDelete
             anchors.centerIn: Overlay.overlay
             iconColor: Colors.warnRed
             text: qsTr("Benutzer erfolgreich gelöscht!")
 
-            StandardButton
-            {
-                text:qsTr("OK")
-                onClicked:
-                {
+            StandardButton {
+                text: qsTr("OK")
+                onClicked: {
                     deleteSuccess.close()
                     docroot.stackView.pop()
                 }
             }
         }
 
-        InfoDialog
-        {
+        InfoDialog {
             id: unsavedChangesDialog
-            parent:overlay
+            parent: overlay
             icon: Icons.question
 
             anchors.centerIn: Overlay.overlay
@@ -188,31 +177,23 @@ ScrollViewBase
             headline: qsTr("Ungespeicherte Änderungen")
             text: qsTr("Möchtest du die ungespeicherten Änderungen übernehmen?")
 
-
-            StandardButton
-            {
-                text:qsTr("Verwerfen")
-                onClicked:
-                {
+            StandardButton {
+                text: qsTr("Verwerfen")
+                onClicked: {
                     unsavedChangesDialog.close()
                     docroot.goBack()
-
                 }
             }
 
-            StandardButton
-            {
-                text:qsTr("Übernehmen")
+            StandardButton {
+                text: qsTr("Übernehmen")
                 fontColor: Colors.highlightBlue
-                onClicked:
-                {
+                onClicked: {
                     unsavedChangesDialog.close()
-                    if(contact.save() )
+                    if (contact.save())
                         docroot.goBack()
                 }
             }
         }
     }
 }
-
-

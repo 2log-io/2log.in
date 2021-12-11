@@ -1,3 +1,21 @@
+
+
+/*   2log.io
+ *   Copyright (C) 2021 - 2log.io | mail@2log.io,  mail@friedemann-metzger.de
+ *
+ *   This program is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU Affero General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   (at your option) any later version.
+ *
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU Affero General Public License for more details.
+ *
+ *   You should have received a copy of the GNU Affero General Public License
+ *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 import QtQuick 2.0
 import AppComponents 1.0
 import UIControls 1.0
@@ -5,78 +23,68 @@ import "../DeviceDetails"
 import QtQuick.Layouts 1.3
 import CloudAccess 1.0
 
-Container
-{
+Container {
     id: docroot
-    headline:  qsTr("Gesamtverlauf")
+    headline: qsTr("Gesamtverlauf")
     width: parent.width
 
     property double xOffset: 0
 
     property int range: 1 * 12 * 60 * 60 * 1000
 
-    property date to:
-    {
+    property date to: {
         var date = new Date()
         return date
     }
 
-    property date from:
-    {
-         var date = new Date()
-         date.setTime(to.getTime() - 2*range )
-         return date
+    property date from: {
+        var date = new Date()
+        date.setTime(to.getTime() - 2 * range)
+        return date
     }
 
     property int fromSec: from.getTime()
 
     property int toSec: to.getTime()
 
-    property real pxPerSec:indicatorRepeater.count > 0 ? indicatorRepeater.itemAt(0).width / docroot.range : 0
+    property real pxPerSec: indicatorRepeater.count > 0 ? indicatorRepeater.itemAt(
+                                                              0).width / docroot.range : 0
 
     property bool test
 
-    function timeToPx(time)
-    {
+    function timeToPx(time) {
         var milis = docroot.range
         var pxPerSec = indicatorRepeater.itemAt(0).width / milis
         return time * pxPerSec
     }
 
-    function timeToX(time)
-    {
+    function timeToX(time) {
         var range = docroot.range
-        var delta =  to.getTime() - time.getTime()
+        var delta = to.getTime() - time.getTime()
         var pixRange = indicatorRepeater.itemAt(0).width
         return pixRange - (delta / range * pixRange) //w+ xOffset
     }
 
-    function secToX(time)
-    {
+    function secToX(time) {
         var date = new Date()
         return timeToX(date.setTime(time))
     }
 
-    function pxToTime(px)
-    {
-        var pxPerMsec =  docroot.range / indicatorRepeater.itemAt(0).width
+    function pxToTime(px) {
+        var pxPerMsec = docroot.range / indicatorRepeater.itemAt(0).width
         return pxPerSec * px
     }
 
-
-    ColumnLayout
-    {
+    ColumnLayout {
         width: parent.width
-        height: layout.height + 40//docroot.height - docroot.margins - 40
+        height: layout.height + 40 //docroot.height - docroot.margins - 40
 
-        Item
-        {
+        Item {
             Layout.fillWidth: true
             Layout.minimumHeight: 20
             Layout.maximumHeight: 20
 
-            GridLabels
-            {
+            GridLabels {
                 grid: gridLines.lines
                 height: 20
                 width: gridLines.width
@@ -84,30 +92,29 @@ Container
             }
         }
 
-
-        Item
-        {
+        Item {
             Layout.fillWidth: true
             Layout.fillHeight: true
 
-
-            Rectangle
-            {
+            Rectangle {
                 z: 10
                 anchors.bottom: flickable.bottom
                 height: 20
                 width: flickable.width
                 opacity: 1
                 gradient: Gradient {
-                         GradientStop { position: 1.0; color: Colors.darkBlue }
-                         GradientStop { position: 0.0; color: "transparent" }
-                     }
+                    GradientStop {
+                        position: 1.0
+                        color: Colors.darkBlue
+                    }
+                    GradientStop {
+                        position: 0.0
+                        color: "transparent"
+                    }
+                }
             }
 
-
-
-            Flickable
-            {
+            Flickable {
                 id: flickable
                 clip: true
                 contentWidth: width
@@ -115,31 +122,27 @@ Container
                 interactive: flickable.height < contentHeight && !dragArea.lock
                 anchors.fill: parent
 
-                MouseArea
-                {
+                MouseArea {
                     id: dragArea
                     property real start
                     property real start2
                     property bool lock
 
                     anchors.fill: parent
-                    onPressed:
-                    {
+                    onPressed: {
                         start = mouseX
                         start2 = mouseX
                     }
-                    onReleased:  lock = false
-                    onMouseXChanged:
-                    {
-                        if (xOffset + (mouseX -start) < 0)
+                    onReleased: lock = false
+                    onMouseXChanged: {
+                        if (xOffset + (mouseX - start) < 0)
                             return
                         lock = Math.abs(start2 - mouseX) > 5
-                        xOffset += mouseX -start
+                        xOffset += mouseX - start
                         start = mouseX
                     }
 
-                    onWheel:
-                    {
+                    onWheel: {
                         if (xOffset + wheel.pixelDelta.x < 0)
                             return
 
@@ -148,49 +151,42 @@ Container
                     }
                 }
 
-                GridLayout
-                {
+                GridLayout {
                     id: layout
                     width: parent.width
                     columns: 2
-                    rows:  indicatorRepeater.count
+                    rows: indicatorRepeater.count
                     columnSpacing: 10
-                    rowSpacing:0
+                    rowSpacing: 0
 
-                    TimeGrid
-                    {
+                    TimeGrid {
                         id: gridLines
-                        Layout.rowSpan:indicatorRepeater.count
+                        Layout.rowSpan: indicatorRepeater.count
                         Layout.row: 0
                         Layout.column: 1
                         Layout.fillWidth: true
-                        Layout.minimumHeight: indicatorRepeater.count*42
+                        Layout.minimumHeight: indicatorRepeater.count * 42
                         count: indicatorRepeater.count
                         clip: true
-                        xOffset:  docroot.xOffset
+                        xOffset: docroot.xOffset
                         range: docroot.range
                         visible: true
-                        Column
-                        {
+                        Column {
                             //spacing: 10
                             anchors.fill: parent
-                            Repeater
-                            {
+                            Repeater {
                                 id: indicatorRepeater
-                                model:  deviceModel
+                                model: deviceModel
 
-                                Item
-                                {
+                                Item {
                                     visible: true
                                     Layout.column: 1
                                     Layout.row: index
                                     width: parent.width
                                     height: 42
+
                                     //clip: true
-
-
-                                    Rectangle
-                                    {
+                                    Rectangle {
                                         height: 1
                                         anchors.bottom: parent.bottom
                                         anchors.right: parent.right
@@ -198,8 +194,7 @@ Container
                                         opacity: .2
                                     }
 
-                                    Rectangle
-                                    {
+                                    Rectangle {
                                         visible: index == 0
                                         height: 1
                                         anchors.top: parent.top
@@ -208,21 +203,18 @@ Container
                                         opacity: .2
                                     }
 
-
-                                    Item
-                                    {
+                                    Item {
                                         height: parent.height
                                         width: parent.width
                                         x: docroot.xOffset
-                                        Repeater
-                                        {
+                                        Repeater {
                                             model: logModel
 
-                                            Rectangle
-                                            {
+                                            Rectangle {
                                                 property string start: startTime
                                                 property string end: endTime
-                                                property date startTimeObj: TypeDef.parseISOLocal(start)
+                                                property date startTimeObj: TypeDef.parseISOLocal(
+                                                                                start)
                                                 property date endTimeObj: TypeDef.parseISOLocal(end)
 
                                                 height: 20
@@ -231,31 +223,31 @@ Container
 
                                                 color: Colors.highlightBlue
                                                 x: timeToX(startTimeObj)
-                                               // visible: x+width > 0 && x < layout.width
-                                                width: (timeToX(endTimeObj) - x) < 1 ? 1 : timeToX(endTimeObj) - x
+                                                // visible: x+width > 0 && x < layout.width
+                                                width: (timeToX(endTimeObj) - x)
+                                                       < 1 ? 1 : timeToX(
+                                                                 endTimeObj) - x
                                             }
                                         }
                                     }
-                                    TextLabel
-                                    {
+                                    TextLabel {
                                         anchors.top: parent.top
                                         anchors.topMargin: 2
                                         id: textIn
-                                        opacity:.5
+                                        opacity: .5
                                         text: _displayName
-                                        Layout.alignment : Qt.AlignRight
-                                        visible:  docroot.width < 460
+                                        Layout.alignment: Qt.AlignRight
+                                        visible: docroot.width < 460
                                         fontSize: 11
                                     }
 
-
-                                    LogModel
-                                    {
+                                    LogModel {
                                         id: logModel
                                         logType: 13
-                                        resourceID:_deviceID
+                                        resourceID: _deviceID
                                         visibleRange: docroot.range
-                                        currentPos: (xOffset + gridLines.width/2) / gridLines.width
+                                        currentPos: (xOffset + gridLines.width
+                                                     / 2) / gridLines.width
                                         to: docroot.to
                                     }
                                 }
@@ -263,18 +255,15 @@ Container
                         }
                     }
 
-                    FilteredDeviceModel
-                    {
+                    FilteredDeviceModel {
                         id: deviceModel
-                        deviceType:["Controller/*", "Controller"]
+                        deviceType: ["Controller/*", "Controller"]
                     }
 
-                    Repeater
-                    {
+                    Repeater {
                         id: deviceModelRepeater
                         model: deviceModel
-                        Item
-                        {
+                        Item {
                             id: labelWrapper
                             visible: docroot.width > 460
                             width: text.width
@@ -284,12 +273,11 @@ Container
                             Layout.column: 0
                             Layout.row: index
 
-                            TextLabel
-                            {
+                            TextLabel {
                                 anchors.verticalCenter: parent.verticalCenter
                                 id: text
                                 text: _displayName
-                                Layout.alignment : Qt.AlignRight
+                                Layout.alignment: Qt.AlignRight
                             }
                         }
                     }

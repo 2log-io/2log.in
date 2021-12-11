@@ -1,3 +1,21 @@
+
+
+/*   2log.io
+ *   Copyright (C) 2021 - 2log.io | mail@2log.io,  mail@friedemann-metzger.de
+ *
+ *   This program is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU Affero General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   (at your option) any later version.
+ *
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU Affero General Public License for more details.
+ *
+ *   You should have received a copy of the GNU Affero General Public License
+ *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 import QtQuick 2.0
 import CloudAccess 1.0
 import QtQuick.Controls 2.12
@@ -5,99 +23,80 @@ import UIControls 1.0
 import AppComponents 1.0
 import QtQuick.Layouts 1.14
 
-Rectangle
-{
+Rectangle {
     id: docroot
     color: Colors.darkBlue
     property DeviceModel deviceModel
     property DeviceModel displayModel
 
     property bool active: (StackView.status === StackView.Active)
-    signal backClicked()
-    signal paymentSuccessfull()
+    signal backClicked
+    signal paymentSuccessfull
     signal userAuthenticated(var authData)
     property var billData
 
-    onBillDataChanged:
-    {
+    onBillDataChanged: {
         displayModel.triggerFunction("showBill", billData)
     }
 
-    onActiveChanged:
-    if(active)
-    {
-         deviceModel.getProperty("state").value = 0
-    }
+    onActiveChanged: if (active) {
+                         deviceModel.getProperty("state").value = 0
+                     }
 
-    Connections
-    {
+    Connections {
         target: deviceModel
-        function onDataReceived()
-        {
+        function onDataReceived() {
             var msg = billData
             billData["cardID"] = subject
             payService.call("preparebill", msg, payCallBack)
         }
     }
 
-    Connections
-    {
+    Connections {
         target: displayModel
-        function onDataReceived()
-        {
-            if(subject == "confirm")
+        function onDataReceived() {
+            if (subject == "confirm")
                 payService.call("bill", docroot.billData, docroot.confirmCb)
 
-            if(subject == "cancel")
-            {
-                displayModel.triggerFunction("cancel",{})
+            if (subject == "cancel") {
+                displayModel.triggerFunction("cancel", {})
                 docroot.backClicked()
             }
         }
     }
 
-   function confirmCb(data)
-   {
-       if(data.errcode == 0)
-       {
-           displayModel.triggerFunction("confirm",{})
-           docroot.paymentSuccessfull()
-       }
-   }
-
-    function payCallBack(cbData)
-    {
-        if(cbData.errcode === 0)
-        {
-            deviceModel.triggerFunction("showAccept",{})
-            docroot.userAuthenticated(cbData)
-        }
-        else
-        {
-            deviceModel.triggerFunction("showError",{})
+    function confirmCb(data) {
+        if (data.errcode == 0) {
+            displayModel.triggerFunction("confirm", {})
+            docroot.paymentSuccessfull()
         }
     }
 
-    ServiceModel
-    {
+    function payCallBack(cbData) {
+        if (cbData.errcode === 0) {
+            deviceModel.triggerFunction("showAccept", {})
+            docroot.userAuthenticated(cbData)
+        } else {
+            deviceModel.triggerFunction("showError", {})
+        }
+    }
+
+    ServiceModel {
         id: payService
         service: "payment"
     }
 
-    ColumnLayout
-    {
+    ColumnLayout {
         anchors.fill: parent
         anchors.topMargin: 10
         spacing: 10
 
-        Item
-        {
+        Item {
             Layout.minimumHeight: 110
             Layout.maximumHeight: 110
             Layout.fillWidth: true
 
-            RoundGravatarImage
-            {
+            RoundGravatarImage {
                 id: image
                 size: 90
                 width: 90
@@ -108,23 +107,20 @@ Rectangle
                 anchors.leftMargin: 20
             }
 
-            Column
-            {
+            Column {
                 anchors.left: image.right
                 anchors.margins: 20
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.right: parent.right
                 spacing: 4
 
-                TextLabel
-                {
+                TextLabel {
                     width: parent.width
                     fontSize: 24
                     text: docroot.billData.name
                 }
 
-                TextLabel
-                {
+                TextLabel {
                     text: docroot.billData.surname
                     fontSize: 22
                     width: parent.width
@@ -132,21 +128,17 @@ Rectangle
             }
         }
 
-        Item
-        {
+        Item {
             Layout.fillHeight: true
             Layout.fillWidth: true
 
-            BillSummary
-            {
+            BillSummary {
                 id: billSummary
                 anchors.fill: parent
                 billData: docroot.billData
-
             }
 
-            Rectangle
-            {
+            Rectangle {
                 z: 10
                 anchors.top: parent.top
                 height: 20
@@ -154,13 +146,18 @@ Rectangle
                 opacity: 1
                 visible: billSummary.contentY > 0
                 gradient: Gradient {
-                         GradientStop { position: 0.0; color: Colors.darkBlue }
-                         GradientStop { position: 1.0; color: "transparent" }
-                     }
+                    GradientStop {
+                        position: 0.0
+                        color: Colors.darkBlue
+                    }
+                    GradientStop {
+                        position: 1.0
+                        color: "transparent"
+                    }
+                }
             }
 
-            Rectangle
-            {
+            Rectangle {
                 z: 10
                 anchors.bottom: parent.bottom
 
@@ -168,55 +165,55 @@ Rectangle
                 width: parent.width
                 opacity: 1
                 gradient: Gradient {
-                         GradientStop { position: 1.0; color: Colors.darkBlue }
-                         GradientStop { position: 0.0; color: "transparent" }
-                     }
+                    GradientStop {
+                        position: 1.0
+                        color: Colors.darkBlue
+                    }
+                    GradientStop {
+                        position: 0.0
+                        color: "transparent"
+                    }
+                }
             }
         }
 
-        Item
-        {
+        Item {
             Layout.minimumHeight: 110
             Layout.maximumHeight: 110
             Layout.fillWidth: true
 
-            RowLayout
-            {
+            RowLayout {
                 anchors.fill: parent
                 anchors.topMargin: 10
                 anchors.bottomMargin: 10
                 anchors.rightMargin: 10
                 anchors.leftMargin: 10
-                BigActionButton
-                {
+                BigActionButton {
                     Layout.minimumWidth: height
                     Layout.maximumWidth: height
                     Layout.fillHeight: true
-                    onClicked:
-                    {
-                        displayModel.triggerFunction("cancel",{})
+                    onClicked: {
+                        displayModel.triggerFunction("cancel", {})
                         docroot.backClicked()
                     }
-                    Icon
-                    {
+                    Icon {
                         iconColor: Colors.warnRed
                         iconSize: 30
                         icon: Icons.cancel
                         anchors.centerIn: parent
                     }
                 }
-
-                BigPriceActionButton
-                {
+                BigPriceActionButton {
                     id: confirmBtn
-                    text: (billData.discountTotal / 100).toLocaleString(Qt.locale("de_DE"))
+                    text: (billData.discountTotal / 100).toLocaleString(
+                              Qt.locale("de_DE"))
                     Layout.fillHeight: true
                     Layout.fillWidth: true
                     buttonIcon: Icons.check
-                    onClicked: payService.call("bill", docroot.billData, docroot.confirmCb)
+                    onClicked: payService.call("bill", docroot.billData,
+                                               docroot.confirmCb)
                 }
             }
         }
     }
 }
-

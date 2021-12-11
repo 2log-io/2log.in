@@ -1,3 +1,21 @@
+
+
+/*   2log.io
+ *   Copyright (C) 2021 - 2log.io | mail@2log.io,  mail@friedemann-metzger.de
+ *
+ *   This program is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU Affero General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   (at your option) any later version.
+ *
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU Affero General Public License for more details.
+ *
+ *   You should have received a copy of the GNU Affero General Public License
+ *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 import QtQuick.Layouts 1.3
 import CloudAccess 1.0
 import QtQuick 2.5
@@ -5,61 +23,55 @@ import QtQuick.Controls 2.5
 import UIControls 1.0
 import AppComponents 1.0
 
+
 /*
    The mechanism for creating new devices is somewhat tricky. After the callback that the device was successfully created
    I wait for the signal "onCountChanged" to be sure that the Device is populated in the list.
    I want the tile to be visible for a short time before you are redirected to the settings page.
 */
-
-Container
-{
+Container {
     id: container
 
     property string icon
     property string resourceName
     property int count: layout.count
-    property alias model:layout.model
+    property alias model: layout.model
     signal clicked(string deviceID)
     property string newDeviceID
     signal openSettings(string deviceID)
     width: parent.width
     headline: qsTr("Geräte")
     property string controllerType
-   // visible: count > 0
 
-    header:
-    ContainerButton
-    {
+    // visible: count > 0
+    header: ContainerButton {
         id: setupbtn
         anchors.right: parent.right
-        anchors.verticalCenter:parent.verticalCenter
+        anchors.verticalCenter: parent.verticalCenter
         icon: Icons.plus
         //enabled: stack.currentItem.stackID === "info" && deviceModel.available
-        text:qsTr("Hinzufügen")
+        text: qsTr("Hinzufügen")
         onClicked: addPopup.open()
 
-        Popup
-        {
+        Popup {
             id: addPopup
             x: setupbtn.width - width
             y: setupbtn.height + 8
-            width: flyoutLayout.width+24
-            height: flyoutLayout.height+20
-            parent:setupbtn
-            onOpenedChanged: if(open) nameField.forceActiveFocus()
+            width: flyoutLayout.width + 24
+            height: flyoutLayout.height + 20
+            parent: setupbtn
+            onOpenedChanged: if (open)
+                                 nameField.forceActiveFocus()
             padding: 0
-            onWaitingChanged:
-            if(!waiting)
-                addPopup.close()
-            else
-                nameField.text = ""
+            onWaitingChanged: if (!waiting)
+                                  addPopup.close()
+                              else
+                                  nameField.text = ""
 
             property bool waiting: false
-            contentItem:
-            FlyoutHelper
-            {
+            contentItem: FlyoutHelper {
                 triangleHeight: 16
-                triangleDelta: width - triangleHeight/2 - setupbtn.width/2
+                triangleDelta: width - triangleHeight / 2 - setupbtn.width / 2
                 triangleSide: Qt.TopEdge
                 fillColor: Qt.darker(Colors.darkBlue, 1.2)
                 borderColor: Colors.greyBlue
@@ -70,89 +82,76 @@ Container
                 x: .5
                 y: .5
 
-                states:
-                [
-                    State
-                    {
+                states: [
+                    State {
                         when: addPopup.waiting
-                        name:"waiting"
-                        PropertyChanges
-                        {
+                        name: "waiting"
+                        PropertyChanges {
                             target: button
-                            icon:""
+                            icon: ""
                         }
 
-                        PropertyChanges
-                        {
+                        PropertyChanges {
                             target: spinner
                             visible: true
                         }
 
-                        PropertyChanges
-                        {
-                            target:  nameField
+                        PropertyChanges {
+                            target: nameField
                             enabled: false
-                            placeholderText:qsTr("Laden...")
+                            placeholderText: qsTr("Laden...")
                         }
                     }
                 ]
-                Column
-                {
+                Column {
                     id: flyoutLayout
                     anchors.centerIn: parent
                     anchors.verticalCenterOffset: 4
                     spacing: 10
 
-                    ServiceModel
-                    {
+                    ServiceModel {
                         id: service
                         service: "machineControl"
                     }
 
-                    function inserted(data)
-                    {
-                        if(data.success === true)
-                        {
+                    function inserted(data) {
+                        if (data.success === true) {
                             container.newDeviceID = data.data.data.deviceID
                             addPopup.waiting = false
                         }
                     }
 
-                    function checkAndAdd()
-                    {
-                        if(nameField.currentText === "")
-                        {
+                    function checkAndAdd() {
+                        if (nameField.currentText === "") {
                             nameField.showErrorAnimation()
-                            return;
+                            return
                         }
 
-                        service.call("newController", {"name":nameField.currentText, "type":container.controllerType}, inserted)
+                        service.call("newController", {
+                                         "name": nameField.currentText,
+                                         "type": container.controllerType
+                                     }, inserted)
                         addPopup.waiting = true
                     }
-                    Row
-                    {
+                    Row {
                         spacing: 10
-                        TextField
-                        {
+                        TextField {
                             id: nameField
                             width: 120
-                            placeholderText:qsTr("Maschinenname")
+                            placeholderText: qsTr("Maschinenname")
                             onAccepted: flyoutLayout.checkAndAdd()
                         }
 
-                        StandardButton
-                        {
+                        StandardButton {
                             icon: Icons.plus
                             id: button
-                            onClicked:flyoutLayout.checkAndAdd()
-                            Item
-                            {
+                            onClicked: flyoutLayout.checkAndAdd()
+                            Item {
                                 id: spinner
                                 visible: false
                                 anchors.fill: button
 
-                                LoadingIndicator
-                                {
+                                LoadingIndicator {
                                     visible: true
                                     id: spinnerImage
                                     baseSize: 4
@@ -164,91 +163,86 @@ Container
                     }
                 }
 
-                SynchronizedListModel
-                {
+                SynchronizedListModel {
                     id: controllerModel
-                    resource:"2log/controller/"+container.controllerType
+                    resource: "2log/controller/" + container.controllerType
                 }
             }
         }
     }
 
-
-    GridView
-    {
+    GridView {
         id: layout
         interactive: false
         width: parent.width + 10
-        height:
-        {
-            if(layout.count == 0)
+        height: {
+            if (layout.count == 0)
                 return layout.cellHeight
 
             var columnCount = Math.floor(layout.width / cellWidth)
             var rowCount = Math.floor(layout.count / columnCount)
-            if(layout.count % columnCount != 0)
-                rowCount ++
+            if (layout.count % columnCount != 0)
+                rowCount++
 
             return layout.cellHeight * rowCount
         }
 
         cellHeight: 160
-        cellWidth:
-        {
+        cellWidth: {
             var count = layout.width / 200
-            var width = layout.width/Math.round(count)
+            var width = layout.width / Math.round(count)
             return width
         }
 
-
-        onCountChanged:
-        {
-            if(container.newDeviceID !== "")
-            {
-                container.openSettings(container.newDeviceID);
+        onCountChanged: {
+            if (container.newDeviceID !== "") {
+                container.openSettings(container.newDeviceID)
                 container.newDeviceID = ""
             }
         }
 
-        delegate:
-        Item
-        {
+        delegate: Item {
             width: layout.cellWidth
             height: layout.cellHeight
 
             property DeviceModel model: layout.model.getModelAt(index)
 
-            DeviceItem
-            {
+            DeviceItem {
                 id: item
                 anchors.fill: parent
                 anchors.bottomMargin: 10
-                anchors.rightMargin:  10
-                deviceState:!model || model.state === undefined ? "" : model.state
-                deviceName: !model || model.displayName === undefined ? "" : model.displayName
-                icon: model && container.icon === "" ? TypeDef.getIcon(model.tag)  : container.icon
-                currentUser:!model || model.currentUserName === undefined ? "": model.currentUserName
-                iconImage: model !== null ? TypeDef.getMachineIconSource(model.tag) : ""
-                readyState:!model || model.ready === undefined ? 0 : model.ready
-                onClicked:
-                {
+                anchors.rightMargin: 10
+                deviceState: !model
+                             || model.state === undefined ? "" : model.state
+                deviceName: !model
+                            || model.displayName === undefined ? "" : model.displayName
+                icon: model
+                      && container.icon === "" ? TypeDef.getIcon(
+                                                     model.tag) : container.icon
+                currentUser: !model
+                             || model.currentUserName === undefined ? "" : model.currentUserName
+                iconImage: model !== null ? TypeDef.getMachineIconSource(
+                                                model.tag) : ""
+                readyState: !model
+                            || model.ready === undefined ? 0 : model.ready
+                onClicked: {
                     container.clicked(model.deviceID)
                 }
 
-//                Rectangle
-//                {
-//                    anchors.fill: parent
-//                    color:"transparent"
-//                    border.width: 1
-//                    border.color: Colors.warnRed
-//                    visible: !model || model.ready < 0
-//                }
+                //                Rectangle
+                //                {
+                //                    anchors.fill: parent
+                //                    color:"transparent"
+                //                    border.width: 1
+                //                    border.color: Colors.warnRed
+                //                    visible: !model || model.ready < 0
+                //                }
             }
         }
 
-        TextLabel
-        {
-            text: qsTr("Klicke auf \"Hinzufügen\" um eine Maschine einzurichten")
+        TextLabel {
+            text: qsTr(
+                      "Klicke auf \"Hinzufügen\" um eine Maschine einzurichten")
             anchors.right: parent.right
             anchors.left: parent.left
             anchors.verticalCenter: parent.verticalCenter

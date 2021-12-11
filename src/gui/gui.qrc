@@ -5,11 +5,9 @@
         <file>Views/User/UserTableDelegate.qml</file>
         <file>Views/User/User.qml</file>
         <file>Views/User/UserTable.qml</file>
-        <file>Dialogs/LogInDialog.qml</file>
         <file>Views/AddUser/AddUser.qml</file>
         <file>Views/Devices/DeviceOverview.qml</file>
         <file>Views/DeviceDetails/MachineDetails.qml</file>
-        <file>Views/AddUser/addUserLogic.js</file>
         <file>Views/UserDetails/UserDetails.qml</file>
         <file>Views/DeviceSettings/MachineSettings.qml</file>
         <file>Views/Settings/Settings.qml</file>
@@ -41,7 +39,6 @@
         <file>Views/User/SearchBox.qml</file>
         <file>Views/PayDesk/PaymentSettings.qml</file>
         <file>Views/Overview/OverviewContainer.qml</file>
-        <file>Views/UIBase.qml</file>
         <file>Views/UIBaseVMenu.qml</file>
     </qresource>
 </RCC>

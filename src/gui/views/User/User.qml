@@ -1,3 +1,21 @@
+
+
+/*   2log.io
+ *   Copyright (C) 2021 - 2log.io | mail@2log.io,  mail@friedemann-metzger.de
+ *
+ *   This program is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU Affero General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   (at your option) any later version.
+ *
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU Affero General Public License for more details.
+ *
+ *   You should have received a copy of the GNU Affero General Public License
+ *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 import QtQuick 2.5
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.0
@@ -5,17 +23,14 @@ import UIControls 1.0
 import CloudAccess 1.0
 import AppComponents 1.0
 
-ViewBase
-{
+ViewBase {
     id: docroot
-    viewID:"users"
+    viewID: "users"
     headline: qsTr("Benutzer")
     flip: true
 
-    viewActions:
-    [
-        ViewActionButton
-        {
+    viewActions: [
+        ViewActionButton {
 
             text: qsTr("CSV Import")
             onClicked: docroot.stackView.push(csvImport)
@@ -24,8 +39,7 @@ ViewBase
             visible: !isMobile
         },
 
-        ViewActionButton
-        {
+        ViewActionButton {
             text: qsTr("Neuer Benutzer")
             onClicked: docroot.stackView.push(addUser)
             icon: Icons.addUser
@@ -33,9 +47,7 @@ ViewBase
         }
     ]
 
-
-    ColumnLayout
-    {
+    ColumnLayout {
         anchors.fill: parent
         spacing: 0
 
@@ -45,84 +57,75 @@ ViewBase
             Layout.fillWidth: true
             z: 10
 
-            ButtonGroup{ buttons: row.children}
+            ButtonGroup {
+                buttons: row.children
+            }
 
-            Rectangle
-            {
+            Rectangle {
                 anchors.fill: parent
                 color: Colors.greyBlue
                 radius: 3
                 opacity: 1
-                Rectangle
-                {
+                Rectangle {
                     color: parent.color
                     width: parent.width
                     height: 6
                     anchors.bottom: parent.bottom
                 }
-                Shadow
-                {
+                Shadow {
                     property bool shadowTop: false
                     property bool shadowRight: false
                     property bool shadowLeft: false
                 }
             }
 
-
-            Row
-            {
+            Row {
                 id: row
                 height: 35
                 anchors.bottom: parent.bottom
                 anchors.left: parent.left
                 anchors.leftMargin: 5
-                TabButton
-                {
+                TabButton {
                     text: qsTr("Alle")
                     bubbleText: userModelAll.count
                     checked: true
                     onClicked: searchFilter.sourceModel = userModelAll
                 }
 
-                TabButton
-                {
+                TabButton {
                     text: qsTr("Im Minus")
                     bubbleText: userModelMinus.count
                     onClicked: searchFilter.sourceModel = userModelMinus
                 }
             }
 
-//            StandardButton
-//            {
-//                height: 30
-//                anchors.right: parent.right
-//                anchors.verticalCenter: parent.verticalCenter
-//                icon: Icons.addUser
-//                onClicked: docroot.stackView.push(addUser)
-//                text:"Benutzer anlegen"
-//                transparent: true
-//            }
+            //            StandardButton
+            //            {
+            //                height: 30
+            //                anchors.right: parent.right
+            //                anchors.verticalCenter: parent.verticalCenter
+            //                icon: Icons.addUser
+            //                onClicked: docroot.stackView.push(addUser)
+            //                text:"Benutzer anlegen"
+            //                transparent: true
+            //            }
         }
 
-        ContainerBase
-        {
+        ContainerBase {
             Layout.fillWidth: true
             Layout.fillHeight: true
             margins: 0
 
-            ColumnLayout
-            {
+            ColumnLayout {
                 anchors.fill: parent
                 anchors.margins: 20
                 anchors.topMargin: 0
-                spacing:10
+                spacing: 10
 
-                SearchBox
-                {
+                SearchBox {
                     id: searchField
                     onTextChanged: timer.restart()
-                    Rectangle
-                    {
+                    Rectangle {
                         width: parent.width
                         height: 1
                         color: Colors.white
@@ -131,16 +134,13 @@ ViewBase
                     }
                 }
 
-                Item
-                {
+                Item {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
-                    UserTable
-                    {
+                    UserTable {
                         id: table
 
-                        Timer
-                        {
+                        Timer {
                             id: timer
                             interval: 750
                         }
@@ -148,23 +148,23 @@ ViewBase
                         anchors.fill: parent
                         anchors.rightMargin: -10
                         anchors.leftMargin: -10
-                        onUserClicked:docroot.stackView.push(userDetails, {"userID":userID, "name":userName})
+                        onUserClicked: docroot.stackView.push(userDetails, {
+                                                                  "userID": userID,
+                                                                  "name": userName
+                                                              })
                         clip: true
                         showImages: !timer.running
 
-                        LoadingIndicator
-                        {
-                            visible:!userModelAll.initialized
+                        LoadingIndicator {
+                            visible: !userModelAll.initialized
                         }
-                        SynchronizedListModel
-                        {
+                        SynchronizedListModel {
                             id: userModelAll
                             resource: "labcontrol/users"
                             preloadCount: -1
                         }
 
-                        RoleFilter
-                        {
+                        RoleFilter {
                             id: searchFilter
                             sourceModel: userModelAll
                             searchString: searchField.text
@@ -173,8 +173,7 @@ ViewBase
                             inverse: false
                         }
 
-                        RoleFilter
-                        {
+                        RoleFilter {
                             id: userModelMinus
                             sourceModel: userModelAll
                             numericFilterRoleName: "balance"
@@ -185,7 +184,7 @@ ViewBase
                             inverse: false
                         }
 
-                        model:searchFilter
+                        model: searchFilter
                     }
                 }
             }

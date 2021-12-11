@@ -1,3 +1,21 @@
+
+
+/*   2log.io
+ *   Copyright (C) 2021 - 2log.io | mail@2log.io,  mail@friedemann-metzger.de
+ *
+ *   This program is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU Affero General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   (at your option) any later version.
+ *
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU Affero General Public License for more details.
+ *
+ *   You should have received a copy of the GNU Affero General Public License
+ *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.4
 import QtQuick 2.8
@@ -5,17 +23,14 @@ import UIControls 1.0
 import CloudAccess 1.0
 import AppComponents 1.0
 
-ViewBase
-{
+ViewBase {
     id: docroot
-    viewID:"products"
+    viewID: "products"
     headline: qsTr("Produkte")
     flip: true
 
-    viewActions:
-    [
-        ViewActionButton
-        {
+    viewActions: [
+        ViewActionButton {
 
             text: qsTr("Sales")
             onClicked: docroot.stackView.push(sales)
@@ -24,25 +39,21 @@ ViewBase
         }
     ]
 
-    function addItem()
-    {
-        var obj=
-        {
-         "name": nameInput.text,
-         "category":categoryCompo.editedText,
-         "price": HelperFunctions.priceTextToInt(priceField.text),
-         "flatrateCategory":flatrateCategoryCombo.editedText,
-         "accountingCode":accountingCodeCombo.editedText
+    function addItem() {
+        var obj = {
+            "name": nameInput.text,
+            "category": categoryCompo.editedText,
+            "price": HelperFunctions.priceTextToInt(priceField.text),
+            "flatrateCategory": flatrateCategoryCombo.editedText,
+            "accountingCode": accountingCodeCombo.editedText
         }
         productModelAll.append(obj)
         nameInput.text = ""
         categoryCompo.reset()
-        priceField.text =""
-
+        priceField.text = ""
     }
 
-    ColumnLayout
-    {
+    ColumnLayout {
         anchors.fill: parent
         spacing: 0
 
@@ -52,22 +63,18 @@ ViewBase
             Layout.fillWidth: true
             z: 10
 
-
-            Rectangle
-            {
+            Rectangle {
                 anchors.fill: parent
                 color: Colors.greyBlue
                 radius: 3
                 opacity: 1
-                Rectangle
-                {
+                Rectangle {
                     color: parent.color
                     width: parent.width
                     height: 6
                     anchors.bottom: parent.bottom
                 }
-                Shadow
-                {
+                Shadow {
                     property bool shadowTop: false
                     property bool shadowRight: false
                     property bool shadowLeft: false
@@ -75,30 +82,25 @@ ViewBase
             }
         }
 
-        ContainerBase
-        {
+        ContainerBase {
             Layout.fillWidth: true
             Layout.fillHeight: true
             margins: 0
 
-            ColumnLayout
-            {
+            ColumnLayout {
                 anchors.fill: parent
                 anchors.margins: 20
                 anchors.topMargin: 0
-                spacing:10
-                Item
-                {
+                spacing: 10
+                Item {
                     Layout.minimumHeight: 40
                     Layout.maximumHeight: 40
                     Layout.fillWidth: true
-                    RowLayout
-                    {
+                    RowLayout {
                         anchors.fill: parent
                         spacing: 10
 
-                        Icon
-                        {
+                        Icon {
                             icon: Icons.loup
                             height: parent.height
                             width: 16
@@ -107,25 +109,22 @@ ViewBase
                             iconSize: 16
                         }
 
-                        Item
-                        {
+                        Item {
                             Layout.fillWidth: true
                             Layout.alignment: Qt.AlignVCenter
                             Layout.fillHeight: true
-                            TextField
-                            {
+                            TextField {
                                 id: searchField
                                 fontSize: Fonts.controlFontSize
                                 placeholderText: qsTr("Suche")
-                                hideLine:true
+                                hideLine: true
                                 anchors.verticalCenter: parent.verticalCenter
                                 anchors.verticalCenterOffset: 3
                             }
                         }
                     }
 
-                    Rectangle
-                    {
+                    Rectangle {
                         width: parent.width
                         Layout.minimumHeight: 1
                         height: 1
@@ -135,113 +134,99 @@ ViewBase
                     }
                 }
 
-                Item
-                {
+                Item {
                     Layout.fillWidth: true
                     Layout.minimumHeight: 40
                     Layout.maximumHeight: 40
 
-                    RowLayout
-                    {
+                    RowLayout {
                         anchors.fill: parent
 
-                        Item
-                        {
+                        Item {
                             Layout.fillHeight: true
                             Layout.fillWidth: true
-                            TextField
-                            {
+                            TextField {
                                 id: nameInput
-                                placeholderText:"Produktname"
+                                placeholderText: "Produktname"
                                 fontSize: Fonts.listDelegateSize
                                 anchors.verticalCenter: parent.verticalCenter
-                                width: parent.width-40
+                                width: parent.width - 40
                                 nextOnTab: categoryCompo
-
                             }
                         }
 
-                        Item
-                        {
+                        Item {
                             Layout.fillHeight: true
                             Layout.fillWidth: true
                             visible: docroot.width > 560
-                            ComboBox
-                            {
+                            ComboBox {
                                 id: categoryCompo
-                                width: parent.width-40
+                                width: parent.width - 40
                                 field.font.pixelSize: Fonts.listDelegateSize
                                 anchors.verticalCenter: parent.verticalCenter
                                 field.color: Colors.grey
-                                options:productModelAll.metadata.categories
-                                placeholderText:"Produkt-Kategorie"
+                                options: productModelAll.metadata.categories
+                                placeholderText: "Produkt-Kategorie"
                                 nextOnTab: flatrateCategoryCombo
                             }
                         }
 
-                        Item
-                        {
+                        Item {
                             Layout.fillHeight: true
                             Layout.fillWidth: true
                             visible: docroot.width > 560
-                            ComboBox
-                            {
+                            ComboBox {
                                 id: flatrateCategoryCombo
-                                width: parent.width-40
+                                width: parent.width - 40
                                 field.font.pixelSize: Fonts.listDelegateSize
                                 anchors.verticalCenter: parent.verticalCenter
                                 field.color: Colors.grey
-                                nextOnTab:accountingCodeCombo.field
-                                options:productModelAll.metadata.flatrateCategories
-                                placeholderText:"Flatrate-Kategorie"
+                                nextOnTab: accountingCodeCombo.field
+                                options: productModelAll.metadata.flatrateCategories
+                                placeholderText: "Flatrate-Kategorie"
                             }
                         }
 
-                        Item
-                        {
+                        Item {
                             Layout.fillHeight: true
                             Layout.fillWidth: true
                             visible: docroot.width > 560
-                            ComboBox
-                            {
+                            ComboBox {
                                 id: accountingCodeCombo
-                                width: parent.width-40
+                                width: parent.width - 40
                                 field.font.pixelSize: Fonts.listDelegateSize
                                 anchors.verticalCenter: parent.verticalCenter
                                 field.color: Colors.grey
-                                nextOnTab:priceField.field
-                                options:productModelAll.metadata.accountingCodes
-                                placeholderText:"Buchungscode"
+                                nextOnTab: priceField.field
+                                options: productModelAll.metadata.accountingCodes
+                                placeholderText: "Buchungscode"
                             }
                         }
 
-                        Item
-                        {
+                        Item {
                             width: 120
                             Layout.fillHeight: true
-                            Row
-                            {
+                            Row {
                                 spacing: 5
                                 anchors.right: parent.right
                                 anchors.verticalCenter: parent.verticalCenter
-                                TextField
-                                {
+                                TextField {
                                     id: priceField
                                     field.horizontalAlignment: Qt.AlignRight
                                     anchors.verticalCenter: parent.verticalCenter
                                     anchors.verticalCenterOffset: 4
                                     field.font.pixelSize: Fonts.listDelegateSize
                                     placeholderText: "Preis"
-                                    field.validator: RegExpValidator { regExp:/^[-]?\d+([\.,]\d{2})?$/}
+                                    field.validator: RegExpValidator {
+                                        regExp: /^[-]?\d+([\.,]\d{2})?$/
+                                    }
                                     width: 50
-                                    onAccepted:
-                                    {
+                                    onAccepted: {
                                         addItem()
                                         nameInput.field.forceActiveFocus()
                                     }
                                 }
-                                TextLabel
-                                {
+                                TextLabel {
                                     text: "EUR"
                                     font.pixelSize: Fonts.verySmallControlFontSize
                                     color: Colors.grey
@@ -251,24 +236,21 @@ ViewBase
                                 }
                             }
                         }
-                        Item
-                        {
+                        Item {
                             width: 40
                             Layout.fillHeight: true
 
-                            MouseArea
-                            {
+                            MouseArea {
                                 id: addIcon
                                 hoverEnabled: true
                                 anchors.fill: parent
                                 onClicked: addItem()
                             }
-                            Icon
-                            {
+                            Icon {
                                 id: icon
 
                                 iconSize: 14
-                                opacity: addIcon.containsMouse ? 1 :.5
+                                opacity: addIcon.containsMouse ? 1 : .5
                                 anchors.centerIn: parent
                                 icon: Icons.plus
                                 iconColor: Colors.white
@@ -277,13 +259,11 @@ ViewBase
                     }
                 }
 
-                Item
-                {
+                Item {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
 
-                    ProductTable
-                    {
+                    ProductTable {
                         id: table
 
                         boundsBehavior: Flickable.DragOverBounds
@@ -291,30 +271,44 @@ ViewBase
                         anchors.rightMargin: -10
                         anchors.leftMargin: -10
                         flatrateCategories: productModelAll.metadata.flatrateCategories
-                        onProductClicked:docroot.stackView.push(userDetails, {"userID":userID, "name":userName})
-                        onProductDeleted: productModelAll.remove(searchFilter.getSourceIndex(index))
-                        onCategoryChanged:  productModelAll.setProperty(searchFilter.getSourceIndex(index), "category", category)
-                        onFlatrateCategoryChanged:  productModelAll.setProperty(searchFilter.getSourceIndex(index), "flatrateCategory", category)
-                        onPriceChanged:  productModelAll.setProperty(searchFilter.getSourceIndex(index), "price", price)
+                        onProductClicked: docroot.stackView.push(userDetails, {
+                                                                     "userID": userID,
+                                                                     "name": userName
+                                                                 })
+                        onProductDeleted: productModelAll.remove(
+                                              searchFilter.getSourceIndex(
+                                                  index))
+                        onCategoryChanged: productModelAll.setProperty(
+                                               searchFilter.getSourceIndex(
+                                                   index), "category", category)
+                        onFlatrateCategoryChanged: productModelAll.setProperty(
+                                                       searchFilter.getSourceIndex(
+                                                           index),
+                                                       "flatrateCategory",
+                                                       category)
+                        onPriceChanged: productModelAll.setProperty(
+                                            searchFilter.getSourceIndex(index),
+                                            "price", price)
                         categories: productModelAll.metadata.categories
-                        accountingCodes:productModelAll.metadata.accountingCodes
-                        onAccountingCodeChanged: productModelAll.setProperty(searchFilter.getSourceIndex(index), "accountingCode", accountingCode)
+                        accountingCodes: productModelAll.metadata.accountingCodes
+                        onAccountingCodeChanged: productModelAll.setProperty(
+                                                     searchFilter.getSourceIndex(
+                                                         index),
+                                                     "accountingCode",
+                                                     accountingCode)
                         clip: true
 
-                        LoadingIndicator
-                        {
-                            visible:!productModelAll.initialized
+                        LoadingIndicator {
+                            visible: !productModelAll.initialized
                         }
 
-                        SynchronizedListModel
-                        {
+                        SynchronizedListModel {
                             id: productModelAll
                             resource: "labcontrol_payment/products"
                             preloadCount: -1
                         }
 
-                        RoleFilter
-                        {
+                        RoleFilter {
                             id: searchFilter
                             sourceModel: productModelAll
                             searchString: searchField.text
@@ -322,11 +316,10 @@ ViewBase
                             inverse: false
                         }
 
-                        model:searchFilter
+                        model: searchFilter
                     }
                 }
             }
         }
     }
 }
-

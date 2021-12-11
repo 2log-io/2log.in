@@ -1,3 +1,21 @@
+
+
+/*   2log.io
+ *   Copyright (C) 2021 - 2log.io | mail@2log.io,  mail@friedemann-metzger.de
+ *
+ *   This program is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU Affero General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   (at your option) any later version.
+ *
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU Affero General Public License for more details.
+ *
+ *   You should have received a copy of the GNU Affero General Public License
+ *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 import QtQuick 2.9
 import QtQuick.Window 2.2
 import QtQuick.Layouts 1.3
@@ -21,76 +39,66 @@ import "CSVImport"
 import "Payment"
 import "PayDesk"
 
-
-Item
-{
+Item {
     id: uiroot
 
     signal cardRead(string card)
     property int selectedReader: -1
-    property string role:
-    {
-        if(UserLogin.currentUser.userData == undefined)
+    property string role: {
+        if (UserLogin.currentUser.userData == undefined)
             return ""
 
-        var role =  UserLogin.currentUser.userData.role
-        if(role == undefined)
+        var role = UserLogin.currentUser.userData.role
+        if (role == undefined)
             return ""
 
         return role
     }
 
     anchors.fill: parent
-    onWidthChanged:
-    {
-        if( width < 500)
-        {
+    onWidthChanged: {
+        if (width < 500) {
             sidebar.visible = false
             header.visible = false
-            return;
-        }        
-        else
-        {
+            return
+        } else {
             header.visible = true
-            sidebar.visible = Qt.binding(function(){return !(uiroot.role == "mngmt" || uiroot.role == "cash")})
+            sidebar.visible = Qt.binding(function () {
+                return !(uiroot.role == "mngmt" || uiroot.role == "cash")
+            })
         }
 
-        sidebar.open =  width > 990
+        sidebar.open = width > 990
     }
 
-    Item
-    {
+    Item {
         id: sidebar
 
         property bool open: true
         visible: !(uiroot.role == "mngmt" || uiroot.role == "cash")
         height: parent.height
         width: 180
-        clip:true
+        clip: true
 
-        Rectangle
-        {
+        Rectangle {
             anchors.fill: parent
             color: Colors.darkBlue
             opacity: 1
-            Shadow{}
+            Shadow {}
         }
 
-        ColumnLayout
-        {
+        ColumnLayout {
             anchors.fill: parent
             spacing: 0
 
-            Rectangle
-            {
+            Rectangle {
                 height: 50
                 Layout.fillWidth: true
                 color: Colors.greyBlue
 
-                IconButton
-                {
+                IconButton {
                     icon: Icons.burger
-                    width:60
+                    width: 60
                     height: header.height
                     anchors.right: parent.right
                     anchors.top: parent.top
@@ -100,47 +108,38 @@ Item
                 }
             }
 
-            MainMenu
-            {
+            MainMenu {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 stackView: stackView
             }
         }
 
-        states:
-        [
-            State
-            {
+        states: [
+            State {
                 name: "invisible"
                 when: !sidebar.visible
 
-                PropertyChanges
-                {
+                PropertyChanges {
                     target: sidebar
                     width: 0
                 }
             },
-            State
-            {
+            State {
                 name: "closed"
                 when: !sidebar.open
 
-                PropertyChanges
-                {
+                PropertyChanges {
                     target: sidebar
                     width: 60
                 }
             }
         ]
 
-        transitions:
-        [
-            Transition
-            {
-                NumberAnimation
-                {
-                    properties:"width"
+        transitions: [
+            Transition {
+                NumberAnimation {
+                    properties: "width"
                     easing.type: Easing.OutQuad
                     target: sidebar
                 }
@@ -148,17 +147,14 @@ Item
         ]
     }
 
-
-    Connections
-    {
+    Connections {
         id: conn
         target: Connection
         property bool firstStart: true
-        function onStateChanged()
-        {
-            if((Connection.state == Connection.STATE_Authenticated) && conn.firstStart)
-            {
-                if(uiroot.role == "cash")
+        function onStateChanged() {
+            if ((Connection.state == Connection.STATE_Authenticated)
+                    && conn.firstStart) {
+                if (uiroot.role == "cash")
                     stackView.replace(payDesk)
                 else
                     stackView.replace(users)
@@ -167,62 +163,57 @@ Item
         }
     }
 
-
-    ColumnLayout
-    {
+    ColumnLayout {
         id: content
         height: parent.height
         width: uiroot.width - sidebar.width
         anchors.left: sidebar.right
         spacing: 0
 
-        Header
-        {
+        Header {
             id: header
             Layout.fillWidth: true
-            Item{width: 40; height: 20}
-            Item
-            {
-                InfoDialog
-                {
-                     id: changeLanguageDialog
-                     anchors.centerIn: Overlay.overlay
-                     parent:overlay
-                     icon: Icons.earth
-                     text: qsTr("Bitte logge dich neu ein um das Wechseln der Sprache abzuschließen."+languageSwitcher.dummy)
-                     headline: qsTr("Sprache wechseln")
+            Item {
+                width: 40
+                height: 20
+            }
+            Item {
+                InfoDialog {
+                    id: changeLanguageDialog
+                    anchors.centerIn: Overlay.overlay
+                    parent: overlay
+                    icon: Icons.earth
+                    text: qsTr("Bitte logge dich neu ein um das Wechseln der Sprache abzuschließen."
+                               + languageSwitcher.dummy)
+                    headline: qsTr("Sprache wechseln")
 
-                     StandardButton
-                     {
-                         text:qsTr("OK")
-                         onClicked:
-                         {
+                    StandardButton {
+                        text: qsTr("OK")
+                        onClicked: {
                             changeLanguageDialog.close()
-                            languageSwitcher.retranslate();
+                            languageSwitcher.retranslate()
                             UserLogin.logout()
-                         }
-                     }
+                        }
+                    }
                 }
             }
 
-            leftSide:
-            [
+            leftSide: [
 
-                UserButton
-                {
+                UserButton {
                     onClicked: stackView.push(profile)
-                    checked:stackView.currentItem && stackView.depth > 0 ? stackView.currentItem.viewID === "profile" : false
+                    checked: stackView.currentItem
+                             && stackView.depth > 0 ? stackView.currentItem.viewID
+                                                      === "profile" : false
                 },
-                IconButton
-                {
+                IconButton {
                     icon: Icons.logout
-                    width:height
-                    height:header.height
+                    width: height
+                    height: header.height
                     anchors.verticalCenter: parent.verticalCenter
                     iconColor: Colors.white
                     iconOpacity: .2
-                    onClicked:
-                    {
+                    onClicked: {
                         conn.firstStart = true
                         UserLogin.logout()
                         Connection.disconnectServer()
@@ -231,192 +222,128 @@ Item
             ]
         }
 
-        Stack
-        {
+        Stack {
             id: stackView
-            clip:true
+            clip: true
             Layout.fillHeight: true
             Layout.fillWidth: true
             padding: 0
         }
 
-
-        BottomAppMenu
-        {
-            open: true//stackView.currentItem && stackView.currentItem.scrollVelocity >= 0
-            visible: UserLogin.currentUser.userData !== undefined && UserLogin.currentUser.userData.role !== "mngmt" && UserLogin.currentUser.userData.role !== "cash"&&  !sidebar.visible
+        BottomAppMenu {
+            open: true //stackView.currentItem && stackView.currentItem.scrollVelocity >= 0
+            visible: UserLogin.currentUser.userData !== undefined
+                     && UserLogin.currentUser.userData.role !== "mngmt"
+                     && UserLogin.currentUser.userData.role !== "cash"
+                     && !sidebar.visible
             Layout.fillWidth: true
             stackView: stackView
         }
     }
 
-
-    Component
-    {
+    Component {
         id: users
-        User
-        {
-        }
+        User {}
     }
 
-
-    Component
-    {
+    Component {
         id: addUser
-        AddUser
-        {
-
-        }
+        AddUser {}
     }
 
-    Component
-    {
+    Component {
         id: devices
-        DeviceOverview
-        {
-
-        }
+        DeviceOverview {}
     }
 
-    Component
-    {
+    Component {
         id: statistics
-        Statistics
-        {
-
-        }
+        Statistics {}
     }
 
-    Component
-    {
+    Component {
         id: settings
-        Settings
-        {
-
-        }
+        Settings {}
     }
 
-    Component
-    {
+    Component {
         id: deviceDetails
-        MachineDetails
-        {
-        }
+        MachineDetails {}
     }
 
-    Component
-    {
+    Component {
         id: deviceSettings
-        MachineSettings
-        {
-        }
+        MachineSettings {}
     }
 
-    Component
-    {
+    Component {
         id: suctionSettings
-        SuctionSettings
-        {
-        }
+        SuctionSettings {}
     }
 
-    Component
-    {
+    Component {
         id: monitorSettings
-        MonitorSettings
-        {
-        }
+        MonitorSettings {}
     }
 
-    Component
-    {
+    Component {
         id: profile
-        Profile
-        {
-        }
+        Profile {}
     }
 
-    Component
-    {
+    Component {
         id: userDetails
-        UserDetails
-        {
-        }
+        UserDetails {}
     }
 
-    Component
-    {
+    Component {
         id: overview
-        Overview
-        {
-        }
+        Overview {}
     }
 
-
-    Component
-    {
+    Component {
         id: products
-        Products
-        {
-        }
+        Products {}
     }
 
-
-
-    Component
-    {
+    Component {
         id: payDesk
-        PayDesk
-        {
-        }
+        PayDesk {}
     }
 
-    Component
-    {
+    Component {
         id: paySettings
-        PaymentSettings
-        {
-        }
+        PaymentSettings {}
     }
 
-    Component
-    {
+    Component {
         id: sales
-        Sales
-        {
-        }
+        Sales {}
     }
 
-    Component
-    {
+    Component {
         id: cobot
-        Cobot
-        {
-        }
+        Cobot {}
     }
 
-    CSVImport
-    {
+    CSVImport {
         id: csvImport
-        property int status:  StackView.status
-        onStatusChanged:  if (status == StackView.Activating) opacity = 1
+        property int status: StackView.status
+        onStatusChanged: if (status == StackView.Activating)
+                             opacity = 1
         visible: StackView.status !== StackView.Inactive
     }
 
-    Connections
-    {
+    Connections {
         target: cppHelper
-        function onBack()
-        {
-            if(stackView.depth > 1)
+        function onBack() {
+            if (stackView.depth > 1)
                 stackView.pop()
         }
     }
 
-    FilteredDeviceModel
-    {
+    FilteredDeviceModel {
         id: deviceModel
         deviceType: ["Controller/AccessControl", "Controller"]
     }
 }
-
