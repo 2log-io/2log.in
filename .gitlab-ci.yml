@@ -12,7 +12,7 @@ build_2logAdminApp:
     - source /emsdk/emsdk_env.sh
     - mkdir -p build
     - mkdir result
-    - cp html/* result/
+    - cp wasm-html-landing/* result/
     - cd build
     - /qtbase/bin/qmake ../2log_admin_app.pro DEFINES+=WEB_ASSEMBLY DEFINES+=__EMSCRIPTEN__ LIBS+=-lidbfs.js
     - make -j8
