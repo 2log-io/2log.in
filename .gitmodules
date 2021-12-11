@@ -1,9 +1,9 @@
 [submodule "src/quickhub-qmlclientmodule"]
 	path = src/quickhub-qmlclientmodule
-	url = git@github.com:quickhub-project/quickhub-qmlclientmodule.git
+	url = https://github.com/quickhub-project/quickhub-qmlclientmodule.git
 [submodule "src/gui/2log-qmlcontrols"]
 	path = src/gui/2log-qmlcontrols
-	url = git@github.com:2log-io/2log-qmlcontrols.git
+	url = https://github.com/2log-io/2log-qmlcontrols.git
 [submodule "src/gui/2log-qmlcomponents"]
 	path = src/gui/2log-qmlcomponents
-	url = git@github.com:2log-io/2log-qmlcomponents.git
+	url = https://github.com/2log-io/2log-qmlcomponents.git
