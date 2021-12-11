@@ -1,7 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
-        <file>Views/ControlOverview.qml</file>
         <file>Views/User/UserTableDelegate.qml</file>
         <file>Views/User/User.qml</file>
         <file>Views/User/UserTable.qml</file>
