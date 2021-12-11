@@ -14,7 +14,7 @@ build_2logAdminApp:
     - mkdir result
     - cp wasm-html-landing/* result/
     - cd build
-    - /qtbase/bin/qmake ../2log_admin_app.pro DEFINES+=WEB_ASSEMBLY DEFINES+=__EMSCRIPTEN__ LIBS+=-lidbfs.js
+    - /qtbase/bin/qmake ../src/2log.in.pro DEFINES+=WEB_ASSEMBLY DEFINES+=__EMSCRIPTEN__ LIBS+=-lidbfs.js
     - make -j8
     - echo "CI_COMMIT_SHA = ${CI_COMMIT_SHA}" > build-info.txt
     - ls
