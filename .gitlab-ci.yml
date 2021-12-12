@@ -10,20 +10,20 @@ build_2logAdminApp:
     - git submodule sync --recursive
     - git submodule update --init --recursive
     - source /emsdk/emsdk_env.sh
-    - mkdir -p build
+    - mkdir -p /src/build
     - mkdir result
     - cp wasm-html-landing/* result/
-    - cd build
-    - /qtbase/bin/qmake ../src/2log.in.pro DEFINES+=WEB_ASSEMBLY DEFINES+=__EMSCRIPTEN__ LIBS+=-lidbfs.js
+    - cd /src/build
+    - /qtbase/bin/qmake ../2log.in.pro DEFINES+=WEB_ASSEMBLY DEFINES+=__EMSCRIPTEN__ LIBS+=-lidbfs.js
     - make -j8
     - echo "CI_COMMIT_SHA = ${CI_COMMIT_SHA}" > build-info.txt
     - ls
-    - cp build-info.txt ../result
-    - cp portal.html ../result
-    - cp portal.wasm ../result
-    - cp portal.js ../result
-    - cp qtloader.js ../result
-    - ls ../result
+    - cp build-info.txt ../../result
+    - cp portal.html ../../result
+    - cp portal.wasm ../../result
+    - cp portal.js ../../result
+    - cp qtloader.js ../../result
+    - ls ../../result
   cache:
     key: ${CI_COMMIT_REF_SLUG}
     paths:
