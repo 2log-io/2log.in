@@ -1,6 +1,5 @@
 stages:
   - build
-  - create
   - deploy
 
 build_2logAdminApp:
@@ -52,7 +51,7 @@ pages:
   variables:
     GIT_STRATEGY: none
   only:
-    - master
+    - main
     - tags
   script:
     - mkdir -p public
