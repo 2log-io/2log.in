@@ -23,10 +23,10 @@ import UIControls 1.0
 import CloudAccess 1.0
 import AppComponents 1.0
 
-import "Views"
-import "Views/User"
-import "Views/Login"
-import "Views/Settings"
+import "views"
+import "views/User"
+import "views/Login"
+import "views/Settings"
 
 ApplicationWindow {
     id: root
