@@ -10,10 +10,10 @@ build_2logAdminApp:
     - git submodule sync --recursive
     - git submodule update --init --recursive
     - source /emsdk/emsdk_env.sh
-    - mkdir -p /src/build
+    - mkdir -p ./src/build
     - mkdir result
     - cp wasm-html-landing/* result/
-    - cd /src/build
+    - cd src/build
     - /qtbase/bin/qmake ../2log.in.pro DEFINES+=WEB_ASSEMBLY DEFINES+=__EMSCRIPTEN__ LIBS+=-lidbfs.js
     - make -j8
     - echo "CI_COMMIT_SHA = ${CI_COMMIT_SHA}" > build-info.txt
