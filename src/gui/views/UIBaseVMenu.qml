@@ -214,7 +214,10 @@ Item {
                     iconColor: Colors.white
                     iconOpacity: .2
                     onClicked: {
+                        // ensures that the UserLevel is checked again at the next login
                         conn.firstStart = true
+                        // stops the reconnect timer
+                        root.loggedOut = true
                         UserLogin.logout()
                         Connection.disconnectServer()
                     }

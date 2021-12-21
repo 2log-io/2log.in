@@ -40,6 +40,7 @@ ApplicationWindow {
     property bool reconnect: false
     property int appState: Qt.application.state
     property bool suspended
+    property bool loggedOut: false
 
     Rectangle {
         anchors.fill: parent
@@ -115,7 +116,7 @@ ApplicationWindow {
         interval: 2000
         repeat: true
         running: Connection.state == Connection.STATE_Disconnected
-                 && !root.provisioning && !root.suspended
+                 && !root.provisioning && !root.suspended && !root.loggedOut
         onTriggered: {
             Connection.reconnectServer()
         }
@@ -150,8 +151,8 @@ ApplicationWindow {
         repeat: false
         interval: 20 * 1000
     }
-    Binding {
 
+    Binding {
         target: sleepAvoider
         property: "lock"
         value: root.provisioning | lockTimer.running
