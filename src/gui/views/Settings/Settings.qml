@@ -62,6 +62,11 @@ ScrollViewBase {
                 visible: available
                 width: parent.width > 725 ? (parent.width - docroot.spacing) / 2 : parent.width
             }
+
+            LicenseContainer {
+                height: selectedDot.height
+                width: parent.width > 725 ? (parent.width - docroot.spacing) / 2 : parent.width
+            }
         }
     }
 
