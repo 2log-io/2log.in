@@ -31,13 +31,14 @@ HEADERS += \
         $$PWD/ISleepAvoider.h \
         $$PWD/ISocketConfig.h \
         $$PWD/InitPlatformAbstraction.h \
+        $$PWD/ManualWifiChanger.h \
         $$PWD/ProvisioningManager.h \
         $$PWD/SocketConfigLegacy.h \
         $$PWD/ios/src/DeepLinkURIReader.h
 
 ios {
     MY_ENTITLEMENTS.name = CODE_SIGN_ENTITLEMENTS
-    MY_ENTITLEMENTS.value = portal.entitlements
+    MY_ENTITLEMENTS.value = $$PWD/ios/assets/portal.entitlements
 
     QMAKE_MAC_XCODE_SETTINGS += MY_ENTITLEMENTS
     QMAKE_ASSET_CATALOGS += $$PWD/ios/assets/Images.xcassets
