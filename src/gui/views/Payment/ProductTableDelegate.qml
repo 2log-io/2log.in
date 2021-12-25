@@ -31,6 +31,7 @@ Item {
     property var flatrateCategories
     property string accountingCode
     property var accountingCodes
+    property bool selfService
 
     signal clicked
     signal deleteItem(string uuid, int idx)
@@ -38,6 +39,7 @@ Item {
     signal categoryEdited(int idx, string category)
     signal flatrateCategoryEdited(int idx, string category)
     signal accountingCodeEdited(int idx, string category)
+    signal selfServiceEdited(int idx, bool selfService)
 
     height: 40
     width: parent.width - 20
@@ -61,6 +63,19 @@ Item {
 
     RowLayout {
         anchors.fill: parent
+
+        Item {
+            Layout.fillHeight: true
+            Layout.minimumWidth: 35
+            Layout.maximumWidth: 35
+
+            CheckBox {
+                anchors.verticalCenter: parent.verticalCenter
+                checked: docroot.selfService
+                intercept: true
+                onClicked: docroot.selfServiceEdited(index, !checked)
+            }
+        }
 
         Item {
             Layout.fillHeight: true

@@ -92,6 +92,7 @@ ViewBase {
                 anchors.margins: 20
                 anchors.topMargin: 0
                 spacing: 10
+
                 Item {
                     Layout.minimumHeight: 40
                     Layout.maximumHeight: 40
@@ -144,7 +145,13 @@ ViewBase {
 
                         Item {
                             Layout.fillHeight: true
+                            Layout.minimumWidth: 35
+                            Layout.maximumWidth: 35
+                        }
+                        Item {
+                            Layout.fillHeight: true
                             Layout.fillWidth: true
+
                             TextField {
                                 id: nameInput
                                 placeholderText: "Produktname"
@@ -289,6 +296,10 @@ ViewBase {
                         onPriceChanged: productModelAll.setProperty(
                                             searchFilter.getSourceIndex(index),
                                             "price", price)
+                        onSelfServiceChanged: productModelAll.setProperty(
+                                                  searchFilter.getSourceIndex(
+                                                      index), "selfService",
+                                                  selfService)
                         categories: productModelAll.metadata.categories
                         accountingCodes: productModelAll.metadata.accountingCodes
                         onAccountingCodeChanged: productModelAll.setProperty(

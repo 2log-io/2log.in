@@ -30,7 +30,7 @@ ListView {
     signal categoryChanged(int index, string category)
     signal flatrateCategoryChanged(int index, string category)
     signal accountingCodeChanged(int index, string accountingCode)
-
+    signal selfServiceChanged(int index, bool selfService)
     property var categories
     property var flatrateCategories
     property var accountingCodes
@@ -46,10 +46,12 @@ ListView {
         flatrateCategories: docroot.flatrateCategories
         category: model.category
         flatrateCategory: model.flatrateCategory
+        onSelfServiceEdited: docroot.selfServiceChanged(idx, selfService)
         onDeleteItem: docroot.productDeleted(idx)
         onPriceEdited: {
             docroot.priceChanged(idx, price)
         }
+        selfService: model.selfService
         accountingCodes: docroot.accountingCodes
         onCategoryEdited: docroot.categoryChanged(idx, category)
         onFlatrateCategoryEdited: docroot.flatrateCategoryChanged(idx, category)
