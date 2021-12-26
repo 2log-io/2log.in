@@ -4,7 +4,7 @@ stages:
 
 build_2logAdminApp:
   stage: build
-  image: registry.gitlab.com/2log/docker-images/qt-webassembly:5.14.0
+  image: registry.gitlab.com/2log/docker-images/qt-webassembly:5.15.2
   script:
     - git submodule sync --recursive
     - git submodule update --init --recursive
