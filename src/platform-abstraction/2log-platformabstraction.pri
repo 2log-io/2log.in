@@ -21,6 +21,7 @@ INCLUDEPATH += $$PWD#/ProvisioningModule
 
 SOURCES += \
         $$PWD/AbstractWifiChanger.cpp \
+        $$PWD/ManualWifiChanger.cpp \
         $$PWD/ProvisioningManager.cpp \
         $$PWD/SocketConfigLegacy.cpp \
         $$PWD/ios/src/DeepLinkURIReader.cpp
