@@ -41,15 +41,11 @@ void SocketConfiguratorIDFix::start(QString ssid, QString pass, QString server, 
     _deviceID = "";
     _deviceIP = "";
 
-    qDebug()<<"START "<<ssid<<"  "<<pass;
     _status = SOCKET_CONNECTING;
     Q_EMIT statusChanged();
     QSslSocket* socket = new QSslSocket(this);
 
-    QList<QSslCertificate> caChain = QSslCertificate::fromPath("://Assets/2log-device.local.crt");
-
-    //qDebug() << "FOO caChain size: " << caChain.size();
-
+    // QList<QSslCertificate> caChain = QSslCertificate::fromPath("://Assets/2log-device.local.crt");
     // _sslConfiguration.setCaCertificates(caChain);
     // _sslConfiguration.setPeerVerifyMode(QSslSocket::VerifyPeer);
     _sslConfiguration.setPeerVerifyMode(QSslSocket::VerifyNone);
@@ -75,10 +71,10 @@ bool SocketConfiguratorIDFix::sendConfig(QSslSocket *socket)
 
     QVariantMap msg;
 
-        msg["cmd"]          = "setconfig";
-        msg["ssid"]         = _targetWifiSsid;
-        msg["pass"]         = _targetWifiPass;
-        msg["extconfig"]    = extconfig;
+    msg["cmd"]          = "setconfig";
+    msg["ssid"]         = _targetWifiSsid;
+    msg["pass"]         = _targetWifiPass;
+    msg["extconfig"]    = extconfig;
 
 
     return socket->write(QJsonDocument::fromVariant(msg).toJson()) >= 0;
