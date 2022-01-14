@@ -21,6 +21,7 @@
     #include "android/src/SleepAvoider.h"
     #include <QtAndroid>
 #elif defined(Q_OS_IOS)
+    #include "NFCReader.h"
     #include "ios/src/Notch.h"
     #include "ios/src/PermissionRequester.h"
     #include "ios/src/SleepAvoider.h"
@@ -72,7 +73,8 @@ int main(int argc, char *argv[])
             window.callMethod<void>("setNavigationBarColor", "(I)V", 0xff202428); // Desired statusbar color
         });
     #elif defined(Q_OS_IOS)
-
+        NFCReader* reader =  new NFCReader();
+        engine.rootContext()->setContextProperty("nfcReader",reader);
         engine.rootContext()->setContextProperty("isMobile",true);
         Notch();
         PermissionRequester requester;

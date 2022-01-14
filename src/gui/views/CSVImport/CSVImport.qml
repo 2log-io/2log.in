@@ -17,6 +17,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 import QtQuick 2.5
+import QtQuick
 import QtQuick.Controls 2.5
 import UIControls 1.0
 import QtQuick.Layouts 1.3
@@ -523,8 +524,8 @@ ViewBase {
                                         width: 65
                                         placeholderText: qsTr("Guthaben")
                                         anchors.verticalCenter: parent.verticalCenter
-                                        field.validator: RegExpValidator {
-                                            regExp: /^[-]?\d+([\.,]\d{2})?$/
+                                        field.validator: RegularExpressionValidator {
+                                            regularExpression: /^[-]?\d+([\.,]\d{2})?$/
                                         }
                                         field.horizontalAlignment: Text.AlignRight
                                         onAccepted: {

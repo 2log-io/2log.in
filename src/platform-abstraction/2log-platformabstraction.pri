@@ -15,6 +15,7 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 QT += network
+greaterThan(QT_MAJOR_VERSION,5): QT += statemachine
 CONFIG += c++11
 
 INCLUDEPATH += $$PWD#/ProvisioningModule

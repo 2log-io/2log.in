@@ -45,11 +45,11 @@ Item {
     signal cardRead(string card)
     property int selectedReader: -1
     property string role: {
-        if (UserLogin.currentUser.userData == undefined)
+        if (UserLogin.currentUser.userData === undefined)
             return ""
 
         var role = UserLogin.currentUser.userData.role
-        if (role == undefined)
+        if (role === undefined)
             return ""
 
         return role
@@ -152,12 +152,13 @@ Item {
         target: Connection
         property bool firstStart: true
         function onStateChanged() {
-            if ((Connection.state == Connection.STATE_Authenticated)
+            if ((Connection.state === Connection.STATE_Authenticated)
                     && conn.firstStart) {
-                if (uiroot.role == "cash")
+                if (uiroot.role == "cash") {
                     stackView.replace(payDesk)
-                else
+                } else {
                     stackView.replace(users)
+                }
                 conn.firstStart = false
             }
         }
@@ -181,7 +182,7 @@ Item {
                 InfoDialog {
                     id: changeLanguageDialog
                     anchors.centerIn: Overlay.overlay
-                    parent: overlay
+                    parent: Overlay.overlay
                     icon: Icons.earth
                     text: qsTr("Bitte logge dich neu ein um das Wechseln der Sprache abzuschließen."
                                + languageSwitcher.dummy)
@@ -230,6 +231,7 @@ Item {
             clip: true
             Layout.fillHeight: true
             Layout.fillWidth: true
+            initialItem: dummy
             padding: 0
         }
 
@@ -247,6 +249,11 @@ Item {
     Component {
         id: users
         User {}
+    }
+
+    Component {
+        id: dummy
+        Item {}
     }
 
     Component {

@@ -148,10 +148,12 @@ ViewBase {
                         anchors.fill: parent
                         anchors.rightMargin: -10
                         anchors.leftMargin: -10
-                        onUserClicked: docroot.stackView.push(userDetails, {
-                                                                  "userID": userID,
-                                                                  "name": userName
-                                                              })
+                        onUserClicked: function (userID, userName) {
+                            docroot.stackView.push(userDetails, {
+                                                       "userID": userID,
+                                                       "name": userName
+                                                   })
+                        }
                         clip: true
                         showImages: !timer.running
 

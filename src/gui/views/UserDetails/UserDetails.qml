@@ -124,7 +124,7 @@ ScrollViewBase {
     Item {
         InfoDialog {
             id: deleteUserDialog
-            parent: overlay
+            parent: Overlay.overlay
             icon: Icons.userDelete
             anchors.centerIn: Overlay.overlay
             iconColor: Colors.warnRed
@@ -152,7 +152,7 @@ ScrollViewBase {
 
         InfoDialog {
             id: deleteSuccess
-            parent: overlay
+            parent: Overlay.overlay
             icon: Icons.userDelete
             anchors.centerIn: Overlay.overlay
             iconColor: Colors.warnRed
@@ -169,7 +169,7 @@ ScrollViewBase {
 
         InfoDialog {
             id: unsavedChangesDialog
-            parent: overlay
+            parent: Overlay.overlay
             icon: Icons.question
 
             anchors.centerIn: Overlay.overlay

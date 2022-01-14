@@ -62,7 +62,7 @@ ScrollViewBase {
 
         InfoDialog {
             id: deleteMachineDialog
-            parent: overlay
+            parent: Overlay.overlay
 
             anchors.centerIn: Overlay.overlay
             icon: Icons.userDelete
@@ -140,7 +140,7 @@ ScrollViewBase {
 
         InfoDialog {
             id: unsavedChangesDialog
-            parent: overlay
+            parent: Overlay.overlay
             icon: Icons.question
 
             anchors.centerIn: Overlay.overlay

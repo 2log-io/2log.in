@@ -39,7 +39,7 @@ ScrollViewBase {
 
             headline: qsTr("Zugangskontrolle")
             model: deviceModel
-            onClicked: {
+            onClicked: function (deviceID) {
                 var model = deviceModel.getDeviceModel(deviceID)
                 machineModels.setup(model)
                 docroot.stackView.push(machineDetails, {

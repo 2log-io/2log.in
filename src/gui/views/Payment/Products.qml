@@ -19,6 +19,7 @@
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.4
 import QtQuick 2.8
+import QtQuick
 import UIControls 1.0
 import CloudAccess 1.0
 import AppComponents 1.0
@@ -224,8 +225,8 @@ ViewBase {
                                     anchors.verticalCenterOffset: 4
                                     field.font.pixelSize: Fonts.listDelegateSize
                                     placeholderText: "Preis"
-                                    field.validator: RegExpValidator {
-                                        regExp: /^[-]?\d+([\.,]\d{2})?$/
+                                    field.validator: RegularExpressionValidator {
+                                        regularExpression: /^[-]?\d+([\.,]\d{2})?$/
                                     }
                                     width: 50
                                     onAccepted: {

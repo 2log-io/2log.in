@@ -17,6 +17,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 import QtQuick 2.5
+import QtQuick
 import QtQuick.Layouts 1.3
 import UIControls 1.0
 
@@ -158,8 +159,8 @@ Item {
                     lineOnHover: true
                     onAccepted: docroot.priceEdited(
                                     index, HelperFunctions.priceTextToInt(text))
-                    field.validator: RegExpValidator {
-                        regExp: /^[-]?\d+([\.,]\d{2})?$/
+                    field.validator: RegularExpressionValidator {
+                        regularExpression: /^[-]?\d+([\.,]\d{2})?$/
                     }
                     width: 50
                 }
