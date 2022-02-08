@@ -70,6 +70,7 @@ ios {
 
     LIBS += -framework NetworkExtension
     LIBS += -framework CoreLocation
+    LIBS += -framework CoreNFC
     QMAKE_CXXFLAGS += -fobjc-arc
     QMAKE_TARGET_BUNDLE_PREFIX = io.2log.in
 }
