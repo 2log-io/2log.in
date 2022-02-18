@@ -7,3 +7,6 @@
 [submodule "src/gui/2log-qmlcomponents"]
 	path = src/gui/2log-qmlcomponents
 	url = https://github.com/2log-io/2log-qmlcomponents.git
+[submodule "src/platform-abstraction/android/android_openssl"]
+	path = src/platform-abstraction/android/android_openssl
+	url = https://github.com/KDAB/android_openssl.git

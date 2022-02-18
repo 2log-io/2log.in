@@ -41,7 +41,6 @@ include(gui/2log-qmlcomponents/src/2log-qmlcomponents.pri)
 include(gui/2log-qmlcontrols/src/2log-qmlcontrols.pri)
 include(platform-abstraction/2log-platformabstraction.pri)
 
-
 SOURCES += \
     main.cpp \
     gui/cpp/LanguageSwitcher.cpp \
@@ -65,15 +64,6 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-
-# TODO - copy files
-#contains(ANDROID_TARGET_ARCH,armeabi-v7a) {
-#    ANDROID_EXTRA_LIBS = \
-#        $$PWD/../../../../../../Downloads/Android/armeabi-v7a/libcrypto.so \
-#        $$PWD/../../../../../../Downloads/Android/armeabi-v7a/libssl.so
-#}
-
-
 DISTFILES += \
     android/AndroidManifest.xml \
     android/build.gradle \
@@ -85,7 +75,8 @@ DISTFILES += \
     src/AppComponents/qmldir \
     translations/main_en.qm
 
-ANDROID_EXTRA_LIBS = /Users/friedemannmetzger/Qt/Android/libcrypto.so /Users/friedemannmetzger/Qt/Android/libssl.so
+#ANDROID_EXTRA_LIBS = $$PWD/platform-abstraction/Assets/libcrypto.so $$PWD/platform-abstraction/Assets/libssl.so
+
 
 #ANDROID_PACKAGE_SOURCE_DIR += $$PWD/android
 
@@ -95,3 +86,5 @@ HEADERS += \
 
 
 
+
+android: include(platform-abstraction/android/android_openssl/openssl.pri)
