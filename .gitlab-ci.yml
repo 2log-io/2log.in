@@ -44,7 +44,7 @@ build_2logAdminApp_android:
     - sudo make -j$(nproc) apk
   artifacts:
     paths:
-      - build/build/outputs/apk/debug
+      - android-build/build/outputs/apk/debug
 
 #create_image:
 #  stage: create
