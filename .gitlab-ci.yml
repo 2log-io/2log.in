@@ -31,6 +31,21 @@ build_2logAdminApp:
     paths:
       - result
 
+build_2logAdminApp_android:
+  stage: build
+  image: rabits/qt:5.15-android
+  script:
+    - sudo ln -s /opt/Qt/5.15.2/android/mkspecs/android-clang/ /opt/Qt/5.15.2/android/mkspecs/android-g++
+    - git submodule sync --recursive
+    - git submodule update --init --recursive
+    - mkdir -p build
+    - cd build
+    - qmake ../2log.in.pro
+    - sudo make -j$(nproc) apk
+  artifacts:
+    paths:
+      - build/build/outputs/apk/debug
+
 #create_image:
 #  stage: create
 #  image: docker:18.09.7
