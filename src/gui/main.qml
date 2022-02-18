@@ -78,7 +78,6 @@ ApplicationWindow {
 
     Component.onCompleted: {
         var url = serverURL
-        UserLogin.autoLogIn = true
         Connection.keepaliveInterval = 5000
         if (url !== "") {
             Connection.serverUrl = url
