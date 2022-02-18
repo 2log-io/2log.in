@@ -40,7 +40,7 @@ build_2logAdminApp_android:
     - git submodule update --init --recursive
     - mkdir -p build
     - cd build
-    - qmake ../2log.in.pro
+    - qmake ../src/2log.in.pro
     - sudo make -j$(nproc) apk
   artifacts:
     paths:
