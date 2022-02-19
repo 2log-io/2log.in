@@ -16,11 +16,9 @@
 
 
 QT += quick websockets svg widgets
-concurrent
 TARGET = portal
 CONFIG += c++11
 INCLUDEPATH += $$PWD/gui/cpp
-
 
 #CONFIG+=sdk_no_version_check
 
