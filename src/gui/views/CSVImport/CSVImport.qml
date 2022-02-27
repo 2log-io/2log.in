@@ -127,7 +127,7 @@ ViewBase {
             }
 
             function onFileLoaded() {
-                p.course = -1
+                //      p.course = -1
                 p.role = -1
                 p.group = -1
             }
@@ -143,7 +143,7 @@ ViewBase {
         QtObject {
             id: p
             property alias role: roleFlyout.selectedIndex
-            property alias course: courseFlyout.selectedIndex
+            //         property alias course: courseFlyout.selectedIndex
             property alias group: groupDropDown.selectedIndex
             property var groupObject
             property int balance
@@ -238,14 +238,14 @@ ViewBase {
     }
 
     function checkValidity() {
-        var course = reader.courseIndex >= 0 || p.course >= 0
-        if (!course)
-            courseCheck.blink()
+        //        var course = reader.courseIndex >= 0 || p.course >= 0
+        //        if (!course)
+        //            courseCheck.blink()
         var role = reader.roleIndex >= 0 || p.role >= 0
         if (!role)
             roleCheck.blink()
 
-        return !hasErrors() && role && course
+        return !hasErrors() && role
     }
 
     ColumnLayout {
@@ -332,14 +332,14 @@ ViewBase {
                         FieldCheckIndicator {
                             id: surnameCheck
                             index: reader.surnameIndex
-                            width: (120 / 720) * (layout.width - 220)
+                            width: (120 / 640) * (layout.width - 220)
                             label: qsTr("Nachname")
                             mandatory: true
                         }
 
                         FieldCheckIndicator {
                             id: nameCheck
-                            width: (120 / 720) * (layout.width - 220)
+                            width: (120 / 640) * (layout.width - 220)
                             index: reader.nameIndex
                             label: qsTr("Vorname")
                             mandatory: true
@@ -347,36 +347,35 @@ ViewBase {
 
                         FieldCheckIndicator {
                             id: emailCheck
-                            width: (200 / 720) * (layout.width - 220)
+                            width: (200 / 640) * (layout.width - 220)
                             index: reader.mailIndex
                             label: qsTr("eMail")
                             mandatory: true
                         }
 
-                        FieldCheckIndicator {
-                            id: courseCheck
-                            width: (80 / 720) * (layout.width - 220)
+                        //                        FieldCheckIndicator {
+                        //                            id: courseCheck
+                        //                            width: (80 / 720) * (layout.width - 220)
 
-                            index: reader.courseIndex
-                            label: qsTr("Studg.")
-                            onClicked: courseFlyout.open()
-                            overwritten: p.course >= 0
-                            checked: courseFlyout.opened
+                        //                            index: reader.courseIndex
+                        //                            label: qsTr("Studg.")
+                        //                            onClicked: courseFlyout.open()
+                        //                            overwritten: p.course >= 0
+                        //                            checked: courseFlyout.opened
 
-                            OptionChooser {
+                        //                            OptionChooser {
 
-                                id: courseFlyout
-                                label: qsTr("Studiengang wählen")
-                                parent: courseCheck.buttonRect
-                                options: TypeDef.getLongStrings(
-                                             TypeDef.courses) // ["Student","Angestellter","Extern"]
-                                onSelectedIndexChanged: courseFlyout.close()
-                            }
-                        }
-
+                        //                                id: courseFlyout
+                        //                                label: qsTr("Studiengang wählen")
+                        //                                parent: courseCheck.buttonRect
+                        //                                options: TypeDef.getLongStrings(
+                        //                                             TypeDef.courses) // ["Student","Angestellter","Extern"]
+                        //                                onSelectedIndexChanged: courseFlyout.close()
+                        //                            }
+                        //                        }
                         FieldCheckIndicator {
                             id: roleCheck
-                            width: (100 / 720) * (layout.width - 220)
+                            width: (100 / 640) * (layout.width - 220)
                             index: reader.roleIndex
                             label: qsTr("Rolle")
                             onClicked: roleFlyout.open()
@@ -607,39 +606,36 @@ ViewBase {
                                                                index)
 
                                 TextLabel {
-                                    width: (120 / 720) * (layout.width - 220)
+                                    width: (120 / 640) * (layout.width - 220)
                                     Layout.fillHeight: true
                                     text: parent.delegateData["user"]["surname"]
                                 }
                                 TextLabel {
                                     Layout.fillHeight: true
-                                    width: (120 / 720) * (layout.width - 220)
+                                    width: (120 / 640) * (layout.width - 220)
                                     text: parent.delegateData["user"]["name"]
                                 }
                                 TextLabel {
                                     Layout.fillHeight: true
-                                    width: (200 / 720) * (layout.width - 220)
+                                    width: (200 / 640) * (layout.width - 220)
                                     opacity: .6
                                     text: parent.delegateData["user"]["mail"]
                                 }
+
+                                //                                TextLabel {
+                                //                                    Layout.fillHeight: true
+                                //                                    width: (80 / 720) * (layout.width - 220)
+                                //                                    text: {
+                                //                                        if (reader.courseIndex >= 0)
+                                //                                            return parent.delegateData["user"]["course"]
+                                //                                        if (p.course >= 0)
+                                //                                            return TypeDef.courses[p.course].name
+                                //                                        return ""
+                                //                                    }
+                                //                                }
                                 TextLabel {
                                     Layout.fillHeight: true
-                                    width: (80 / 720) * (layout.width - 220)
-                                    text: {
-
-                                        if (reader.courseIndex >= 0)
-                                            return parent.delegateData["user"]["course"]
-
-                                        if (p.course >= 0)
-                                            return TypeDef.courses[p.course].name
-
-                                        return ""
-                                    }
-                                }
-
-                                TextLabel {
-                                    Layout.fillHeight: true
-                                    width: (100 / 720) * (layout.width - 220)
+                                    width: (100 / 640) * (layout.width - 220)
                                     text: {
                                         if (reader.roleIndex >= 0)
                                             return parent.delegateData["user"]["role"]
