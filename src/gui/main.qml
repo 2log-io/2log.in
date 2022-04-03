@@ -101,9 +101,11 @@ ApplicationWindow {
         id: conn
         target: Connection
         function onStateChanged() {
+            if (Connection.state == Connection.STATE_Connected) {
+                root.loggedOut = false
+            }
             if (Connection.state == Connection.STATE_Authenticated) {
                 if (suspended) {
-
                     waitForInitTimer.start()
                 }
             }

@@ -66,6 +66,8 @@ Rectangle {
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
         anchors.topMargin: 60
+        enableServerTextField: (Connection.state == Connection.STATE_Disconnected
+                                && !root.suspended && !root.provisioning)
 
         states: [
             State {
